@@ -14,6 +14,7 @@ public enum GameState
 
 public class GameManager : Singleton<GameManager>
 {
+    [Header("Data")] public WaveData waveData;
     private GameState _gamestate;
     public GameState GameState //GameState cannot be set without calling SetGameState
     {
@@ -24,12 +25,15 @@ public class GameManager : Singleton<GameManager>
     //Set in Awake() functions of player & enemyManager
     private Player player;
     public Player Player => player;
-    public EnemyManager enemyManager;
+    [HideInInspector] public EnemyManager enemyManager;
     private int score; //idk if we want a score
     public int Score => score;
+    private int round = 0;
+    public int Round => round;
     
     //events - these can be recieved and trigger things all throughout the game
     public static event Action GameStart;
+    public static event Action<Wave> WaveStart;
     public static event Action GameOver;
     public static event Action GoToMenu;
 
@@ -63,7 +67,12 @@ public class GameManager : Singleton<GameManager>
             }
             case (GameState.Playing):
             {
-                GameStart?.Invoke();
+                if (GameState == GameState.Menu || GameState == GameState.GameEnd)
+                {
+                    round = 0;
+                    GameStart?.Invoke();
+                    StartNextWave();
+                }
                 break;
             }
             case (GameState.GameEnd):
@@ -74,6 +83,12 @@ public class GameManager : Singleton<GameManager>
         }
 
         _gamestate = newGameState;
+    }
+    
+    public void StartNextWave()
+    {
+        round++;
+        WaveStart?.Invoke(waveData.waves[round]);
     }
 
     public void SetPlayer(Player playerIn)

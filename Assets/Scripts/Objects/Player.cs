@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public int health = 100;
+    
     private void Awake()
     {
         GameManager.Instance.SetPlayer(this);
@@ -20,5 +22,22 @@ public class Player : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void TakeDamage(int damageTaken)
+    {
+        health -= damageTaken;
+        
+        //TODO: animation, sound, etc
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        GameManager.Instance.GameState = GameState.GameEnd;
     }
 }

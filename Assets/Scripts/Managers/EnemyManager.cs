@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,25 @@ public class EnemyManager : MonoBehaviour
         
     }
 
+    private void OnEnable()
+    {
+        GameManager.WaveStart += SpawnWave;
+    }
+    
+    private void OnDisable()
+    {
+        GameManager.WaveStart -= SpawnWave;
+    }
+
+    IEnumerator EndRound()
+    {
+        yield return new WaitForSeconds(5f);
+        //TODO:
+        //add UI or FX?
+        //give health back?
+        GameManager.Instance.StartNextWave();
+    }
+
     void SpawnWave(Wave wave)
     {
         StartCoroutine(SpawnWaveCoroutine(wave));
@@ -44,7 +64,7 @@ public class EnemyManager : MonoBehaviour
             for (int spawnPointIndex = 0; spawnPointIndex < set.enemies.Length; spawnPointIndex++)
             {
                 SpawnEnemy(set.enemies[spawnPointIndex], spawnPointIndex);
-                yield return new WaitForSeconds(0.2f); //spicy ;)
+                yield return new WaitForSeconds(0.1f); //spicy ;)
             }
             
             if (set.waitForAllEnemiesDead)
@@ -60,6 +80,12 @@ public class EnemyManager : MonoBehaviour
                 yield return new WaitForSeconds(wave.timeBetweenSets);
             }
         }
+        //wait for all enemies to be dead
+        while (aliveEnemies.Count > 0)
+        {
+            yield return null;
+        }
+        StartCoroutine(EndRound());
     }
 
     void SpawnEnemy(EnemyType enemyType, int spawnPoint)
@@ -88,5 +114,11 @@ public class EnemyManager : MonoBehaviour
             }
         }
         enemy.transform.LookAt(GameManager.Instance.Player.transform.position);
+        aliveEnemies.Add(enemy);
+    }
+
+    public void RemoveEnemy(Enemy enemy)
+    {
+        aliveEnemies.Remove(enemy);
     }
 }

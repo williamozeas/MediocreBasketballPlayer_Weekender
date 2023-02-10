@@ -5,18 +5,35 @@ using UnityEngine;
 //basic enemy class for other enemies
 public class Enemy : MonoBehaviour
 {
-    //this is a property, meaning we can override it in a child class
-    public EnemyType Type => EnemyType.basic;
-    
-    // Start is called on spawn
+    ParticleSystem explosion;
+
+    // Start is called before the first frame update
     void Start()
     {
-        
+        explosion = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 6)
+        //Hit a ball
+        {
+            //Particle
+            StartCoroutine(Die());   
+        }
+    }
+
+    IEnumerator Die()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+        explosion.Play();
+        yield return new WaitForSeconds(0.3f);
+        Destroy(gameObject);
     }
 }

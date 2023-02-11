@@ -25,12 +25,14 @@ public class Enemy : MonoBehaviour
     public int health = 5;
 
     private Coroutine movingCoroutine;
+    ParticleSystem explosion;
     
     // Start is called on spawn
     void Start()
     {
         movingCoroutine = StartCoroutine(MoveTowardsPlayer());
         health = stats.health;
+        explosion = GetComponent<ParticleSystem>();
     }
 
     protected virtual void TakeDamage(int damage)
@@ -74,5 +76,23 @@ public class Enemy : MonoBehaviour
         //     yield return null;
         // }
         yield return null;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 6)
+        //Hit a ball
+        {
+            //Particle
+            StartCoroutine(Die());   
+        }
+    }
+
+    IEnumerator Die()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+        explosion.Play();
+        yield return new WaitForSeconds(0.3f);
+        Destroy(gameObject);
     }
 }

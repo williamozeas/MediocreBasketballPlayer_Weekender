@@ -64,6 +64,9 @@ public class Enemy : MonoBehaviour
         yield return null;
         
         //TODO: death animation, particle effects, etc.
+        GetComponent<MeshRenderer>().enabled = false;
+        explosion.Play();
+        yield return new WaitForSeconds(0.3f);
         
         Destroy(gameObject);
     }
@@ -86,13 +89,5 @@ public class Enemy : MonoBehaviour
             //Particle
             StartCoroutine(Die());   
         }
-    }
-
-    IEnumerator Die()
-    {
-        GetComponent<MeshRenderer>().enabled = false;
-        explosion.Play();
-        yield return new WaitForSeconds(0.3f);
-        Destroy(gameObject);
     }
 }

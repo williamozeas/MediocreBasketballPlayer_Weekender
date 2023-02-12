@@ -47,6 +47,8 @@ public class ButtonInteractions : MonoBehaviour
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(false);
         EndingPage.gameObject.SetActive(false);
+
+        // GameManager.Instance.GameState = GameState.Playing;
     }
 
     public void clickPlayAgainFromEnd() {

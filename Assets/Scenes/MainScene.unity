@@ -317,6 +317,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  chargeRate: 3
+  minChargedVelocity: 2
   ballPrefab: {fileID: 6918321547930112804, guid: ba7583b0309164ea6a6722ef355dd4b3,
     type: 3}
 --- !u!1 &410087039

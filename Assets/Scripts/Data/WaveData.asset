@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: WaveData
   m_EditorClassIdentifier: 
   waves:
+  - timeBetweenSets: 1
+    enemySets:
+    - enemies: 0000000000000000000000000000000000000000000000000000000000000000
+      waitForAllEnemiesDead: 0
   - timeBetweenSets: 3.5
     enemySets:
     - enemies: 0100000000000000000000000000000000000000000000000000000000000000

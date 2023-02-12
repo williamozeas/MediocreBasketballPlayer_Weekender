@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     private GameObject currentBall;
     private Rigidbody ballRB;
     private Vector3 normalizedSideToSide;
+    
 
     private void Awake()
     {

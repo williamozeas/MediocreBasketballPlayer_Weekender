@@ -8,17 +8,21 @@ public class Player : MonoBehaviour
     public int health = 100;
     
 
-    /*private float miny = -60f;
-    private float maxy = -60f;
+    private float yMin = -60f;
+    private float yMax = 60f;
     //side to side turn
-    private float minx = -60f;
-    private float maxx = -60f;*/
+    private float xMin = -40f;
+    private float xMax = 40f;
     //up and down turn
 
     private float yRotation = 0f;
     private float xRotation = 0f;
+
+    public float chargeRate = 20f;
+    public float minChargedVelocity = 2f;
+    private float chargedVelocity = 0f;
     
-    private float sensitivity = 400f;
+    private float sensitivity = 600f;
 
     public GameObject ballPrefab;
 
@@ -28,6 +32,11 @@ public class Player : MonoBehaviour
 
     private int shootMode;
 
+    private GameObject currentBall;
+    private Rigidbody ballRB;
+    private Vector3 normalizedSideToSide;
+    
+
     private void Awake()
     {
         GameManager.Instance.SetPlayer(this);
@@ -36,7 +45,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shootMode = 1;
+        shootMode = 2;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        chargedVelocity = minChargedVelocity;
     }
 
     // Update is called once per frame
@@ -48,6 +60,9 @@ public class Player : MonoBehaviour
 
         yRotation += mouseX * sensitivity * Time.deltaTime;
         xRotation += mouseY * sensitivity * Time.deltaTime;
+
+        yRotation = Math.Clamp(yRotation, yMin, yMax);
+        xRotation = Math.Clamp(xRotation, xMin, xMax);
 
 
         Quaternion localRotation = Quaternion.Euler(xRotation, yRotation, 0.0f);
@@ -64,13 +79,13 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) {
 
-            GameObject ball = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
-            Rigidbody ballRB = ball.GetComponent<Rigidbody>();
+            currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+            ballRB = currentBall.GetComponent<Rigidbody>();
 
             RaycastHit hit;
             Ray ray = new Ray(transform.position, transform.forward);
 
-            Vector3 normalizedSideToSide = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
+            normalizedSideToSide = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
 
             if (shootMode == 1) {
                 // Cast a ray out.
@@ -86,32 +101,45 @@ public class Player : MonoBehaviour
                     //Add v_y
                     ballRB.velocity += Vector3.up * (normalDistance * (float)(Math.Tan(transform.forward.y)) + 4.9f);
                 }
+                Destroy(currentBall, ballDestroyTime);
             } else if (shootMode == 2) {
-                if (Physics.Raycast(ray, out hit))
-                {
-                    float effDist = hit.distance + 1f;
-                    
-                    double hitTime = Math.Sqrt(effDist * (1.73 * Math.Cos(transform.forward.y) - Math.Sin(transform.forward.y)) / 4.9);
-
-                    float velX = effDist * (float)(Math.Cos(transform.forward.y)) / (float)(hitTime);
-
-                    ballRB.velocity = normalizedSideToSide * velX;
-
-                    ballRB.velocity += Vector3.up * velX * 1.73f;
-
-                } else {
-                    float vel = 10f;
-
-                    ballRB.velocity = normalizedSideToSide * vel;
-
-                    ballRB.velocity += Vector3.up * vel * 1.73f;
-                }
+                // if (Physics.Raycast(ray, out hit))
+                // {
+                //     float effDist = hit.distance + 1f;
+                //     
+                //     double hitTime = Math.Sqrt(effDist * (1.73 * Math.Cos(transform.forward.y) - Math.Sin(transform.forward.y)) / 4.9);
+                //
+                //     float velX = effDist * (float)(Math.Cos(transform.forward.y)) / (float)(hitTime);
+                //
+                //     ballRB.velocity = normalizedSideToSide * velX;
+                //
+                //     ballRB.velocity += Vector3.up * velX * 1.73f;
+                //
+                // } else {
+                //     float vel = 10f;
+                //
+                //     ballRB.velocity = normalizedSideToSide * vel;
+                //
+                //     ballRB.velocity += Vector3.up * vel * 1.73f;
+                // }
+                ballRB.useGravity = false;
             }
-
-            
-
-            Destroy(ball, ballDestroyTime);
             //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;
+        }
+
+        if (Input.GetMouseButton(0) && shootMode == 2) //charging
+        {
+            chargedVelocity += chargeRate * Time.deltaTime;
+        }
+
+        if (Input.GetMouseButtonUp(0) && shootMode == 2) //mouse up, shoot
+        {
+            ballRB.useGravity = true;
+            Debug.Log(chargedVelocity);
+            ballRB.velocity = normalizedSideToSide * chargedVelocity;
+            ballRB.velocity += chargedVelocity * 1.73f * Vector3.up;
+            Destroy(currentBall, ballDestroyTime);
+            chargedVelocity = minChargedVelocity;
         }
     }
 

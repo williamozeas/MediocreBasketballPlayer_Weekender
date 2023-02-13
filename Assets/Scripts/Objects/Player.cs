@@ -195,7 +195,7 @@ public class Player : MonoBehaviour
 
         float timeToDraw = (vel.y + (float)Math.Sqrt(vel.y * vel.y + 39.2f)) / 9.8f;
 
-        Debug.Log("drawing");
+        //Debug.Log("drawing");
 
         for (int i = 0; i < lineNumber; i++) {
             line.SetPosition(i, CalculatePos(vel, timeToDraw * i / lineNumber));

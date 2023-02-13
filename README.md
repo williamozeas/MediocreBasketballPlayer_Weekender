@@ -1,5 +1,5 @@
 ## README
-  "I Was a Mediocre Basketball Player But Now I’m Fighting For My Life Against Sentient Basketball Monsters"is a game developed by the Weekender Studios, based on basketball pool game. 
+  "I Was a Mediocre Basketball Player But Now My Half Court Is A Royal Court"is a game developed by the Weekender Studios, based on basketball pool game. 
 ## RUN DIRECTIONS
   Mac: Run the provided .app file
   Window: Run the provided .exe file, with the data folder in the same folder

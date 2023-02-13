@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,21 @@ public class ButtonInteractions : MonoBehaviour
     public GameObject HowToPlayPage;
     public GameObject PlayPage;
     public GameObject EndingPage;
+
+    private void OnEnable()
+    {
+        GameManager.GameOver += OnGameOver;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.GameOver -= OnGameOver;
+    }
+
+    public void OnGameOver()
+    {
+        EndingPage.SetActive(true);
+    }
 
     public void clickStartFromMain() {
         LandingPage.gameObject.SetActive(false);

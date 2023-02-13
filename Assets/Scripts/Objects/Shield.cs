@@ -11,7 +11,7 @@ public class Shield : MonoBehaviour
     private float speed = 8f;
     private float rotationSpeed = 1f;
 
-    private int maxHitCount = 3;
+    private int maxHitCount = 5;
     private int hitCount;
 
     Rigidbody rb;

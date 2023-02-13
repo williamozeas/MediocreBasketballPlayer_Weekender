@@ -43,10 +43,14 @@ public class EnemyManager : MonoBehaviour
     IEnumerator EndRound()
     {
         yield return new WaitForSeconds(5f);
+        
+        //temp: end game
+        GameManager.Instance.GameState = GameState.GameEnd;
+
         //TODO:
         //add UI or FX?
         //give health back?
-        GameManager.Instance.StartNextWave();
+        // GameManager.Instance.StartNextWave();
     }
 
     void SpawnWave(Wave wave)

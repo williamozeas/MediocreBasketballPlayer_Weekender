@@ -135,9 +135,8 @@ MonoBehaviour:
   stats:
     health: 5
     damage: 10
+    speed: 0.6
   health: 5
-  damage: 10
-  speed: 1
 --- !u!198 &2430147134962106598
 ParticleSystem:
   m_ObjectHideFlags: 0

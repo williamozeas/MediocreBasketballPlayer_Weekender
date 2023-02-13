@@ -7,6 +7,7 @@ public class EnemyStats
 {
     public int health = 5;
     public int damage = 5;
+    public float speed = 0.5f;
 
     public EnemyStats(int health_, int damage_)
     {
@@ -23,7 +24,6 @@ public class Enemy : MonoBehaviour
     
     [Header("Current Stats")]
     public int health = 5;
-    public float speed = 1f;
 
     private Coroutine movingCoroutine;
     ParticleSystem explosion;
@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
         {
             Vector3 playerPos = GameManager.Instance.Player.transform.position;
             transform.LookAt(playerPos, Vector3.up);
-            rigidbody.velocity = transform.forward * speed;
+            rigidbody.velocity = transform.forward * stats.speed;
             yield return null;
         }
     }
@@ -102,7 +102,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(Attack());
             Debug.Log("Attacked");
             //TODO: sfx, etc?
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }

@@ -151,7 +151,6 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && throwing && shootMode == 2) //mouse up, shoot
         {
             ballRB.useGravity = true;
-            Debug.Log(chargedVelocity);
             ballRB.velocity = normalizedSideToSide * chargedVelocity;
             ballRB.velocity += chargedVelocity * 1.73f * Vector3.up;
             Destroy(currentBall, ballDestroyTime);

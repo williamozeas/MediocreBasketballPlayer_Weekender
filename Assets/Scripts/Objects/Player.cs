@@ -104,19 +104,19 @@ public class Player : MonoBehaviour
 
         timeSinceThrow += Time.deltaTime;
 
-        //if (Input.GetMouseButtonDown(0)) {
+        /*if (Input.GetMouseButtonDown(0)) {
 
-            /*currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+            currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
             ballRB = currentBall.GetComponent<Rigidbody>();
 
             RaycastHit hit;
-            Ray ray = new Ray(transform.position, transform.forward);*/
+            Ray ray = new Ray(transform.position, transform.forward);
             
 
             
             // Debug.DrawRay(transform.position, normalizedSideToSide, Color.red, 5);
 
-            /*if (shootMode == 1) {
+            if (shootMode == 1) {
                 currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
                 ballRB = currentBall.GetComponent<Rigidbody>();
                 normalizedSideToSide = transform.forward.normalized;
@@ -162,8 +162,8 @@ public class Player : MonoBehaviour
                 //ballRB.useGravity = false;
                 throwing = true;
             }
-            //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;*/
-        //}
+            //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;
+        }*/
 
         if (Input.GetMouseButtonDown(0) && timeSinceThrow > cooldown) {
             if (deleting != null) StopCoroutine(deleting);

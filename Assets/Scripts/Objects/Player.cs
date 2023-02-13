@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shootMode = 2;
+        shootMode = 1;
         chargedVelocity = minChargedVelocity;
         line.positionCount = lineNumber;
     }
@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
 
         timeSinceThrow += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0)) {
+        //if (Input.GetMouseButtonDown(0)) {
 
             /*currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
             ballRB = currentBall.GetComponent<Rigidbody>();
@@ -163,10 +163,9 @@ public class Player : MonoBehaviour
                 throwing = true;
             }
             //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;*/
-        }
+        //}
 
-        if (Input.GetMouseButtonDown(0) && shootMode == 2 && timeSinceThrow > cooldown) {
-            
+        if (Input.GetMouseButtonDown(0) && timeSinceThrow > cooldown) {
             if (deleting != null) StopCoroutine(deleting);
             line.startColor = new Color(1f, .5608f, .0118f, .8f);
             line.endColor = new Color(1f, .2823f, 0f, .8f);
@@ -182,6 +181,14 @@ public class Player : MonoBehaviour
             prelimVel += chargedVelocity * 1.73f * Vector3.up;
 
             DrawShootingLine(prelimVel);
+        } else if (Input.GetMouseButton(0) && throwing && shootMode == 1) {
+            chargedVelocity += chargeRate * Time.deltaTime * 3f;
+            normalizedSideToSide = transform.forward.normalized;
+
+            Vector3 prelimVel = normalizedSideToSide * chargedVelocity;
+            prelimVel += chargedVelocity * .36f * Vector3.up;
+
+            DrawShootingLine(prelimVel);
         }
 
         if (Input.GetMouseButtonUp(0) && throwing && shootMode == 2) //mouse up, shoot
@@ -193,6 +200,19 @@ public class Player : MonoBehaviour
             ballRB.useGravity = true;
             ballRB.velocity = normalizedSideToSide * chargedVelocity;
             ballRB.velocity += chargedVelocity * 1.73f * Vector3.up;
+            Destroy(currentBall, ballDestroyTime);
+            chargedVelocity = minChargedVelocity;
+            timeSinceThrow = 0;
+            throwing = false;
+        } else if (Input.GetMouseButtonUp(0) && throwing && shootMode == 1) //mouse up, shoot
+        {
+            deleting = EraseShootingLine();
+            StartCoroutine(deleting);
+            currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+            ballRB = currentBall.GetComponent<Rigidbody>();
+            ballRB.useGravity = true;
+            ballRB.velocity = normalizedSideToSide * chargedVelocity;
+            ballRB.velocity += chargedVelocity * .36f * Vector3.up;
             Destroy(currentBall, ballDestroyTime);
             chargedVelocity = minChargedVelocity;
             timeSinceThrow = 0;

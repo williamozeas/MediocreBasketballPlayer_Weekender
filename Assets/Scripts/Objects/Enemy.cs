@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
 
     private Coroutine movingCoroutine;
     ParticleSystem explosion;
+    private Rigidbody rigidbody;
     
     // Start is called on spawn
     void Start()
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour
         movingCoroutine = StartCoroutine(MoveTowardsPlayer());
         health = stats.health;
         explosion = GetComponent<ParticleSystem>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     protected virtual void TakeDamage(int damage)
@@ -76,12 +78,15 @@ public class Enemy : MonoBehaviour
 
     protected virtual IEnumerator MoveTowardsPlayer()
     {
-        //loop is infinite until these can die
+        if (!rigidbody)
+        {
+            rigidbody = GetComponent<Rigidbody>();
+        }
         while (GameManager.Instance.GameState == GameState.Playing && health > 0)
         {
             Vector3 playerPos = GameManager.Instance.Player.transform.position;
-            transform.LookAt(new Vector3(playerPos.x, 1, playerPos.y));
-            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+            transform.LookAt(playerPos, Vector3.up);
+            rigidbody.velocity = transform.forward * speed;
             yield return null;
         }
     }
@@ -92,7 +97,10 @@ public class Enemy : MonoBehaviour
         //Hit a ball
         {
             health -= GameManager.Instance.Player.damage;
-            StartCoroutine(Die());   
+            if (health < 0)
+            {
+                StartCoroutine(Die());
+            }
         } else if (other.gameObject.CompareTag("MainCamera"))
         {
             GameManager.Instance.Player.TakeDamage(damage);

@@ -11,7 +11,6 @@ public class ButtonInteractions : MonoBehaviour
     public GameObject EndingPage;
 
     public void clickStartFromMain() {
-        Debug.Log("CLICKED");
         LandingPage.gameObject.SetActive(false);
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(true);
@@ -36,7 +35,7 @@ public class ButtonInteractions : MonoBehaviour
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(false);
 
-        // GameManager.Instance.GameState = GameState.Playing;
+        GameManager.Instance.GameState = GameState.Playing;
     }
 
     public void clickBackFromHowToPlay() {

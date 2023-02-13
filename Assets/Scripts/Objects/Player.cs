@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
 
     public float chargeRate = 20f;
     public float minChargedVelocity = 2f;
-    private float chargedVelocity = 0f;
+    public float maxChargedVelocity = 9f;
+    [HideInInspector] public float chargedVelocity = 0f;
     
     private float sensitivity = 600f;
 
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
     private Vector3 normalizedSideToSide;
     private float timeSinceThrow = 0;
     private bool throwing = false;
+    public bool IsThrowing => throwing;
     
     public LineRenderer line;
     private int lineNumber = 20;
@@ -79,124 +81,135 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = -Input.GetAxis("Mouse Y");
-        //THese are diff than X and Y positions
+        if (GameManager.Instance.GameState == GameState.Playing)
+        {
+            float mouseX = Input.GetAxis("Mouse X");
+            float mouseY = -Input.GetAxis("Mouse Y");
+            //THese are diff than X and Y positions
 
-        yRotation += mouseX * sensitivity * Time.deltaTime;
-        xRotation += mouseY * sensitivity * Time.deltaTime;
+            yRotation += mouseX * sensitivity * Time.deltaTime;
+            xRotation += mouseY * sensitivity * Time.deltaTime;
 
-        yRotation = Math.Clamp(yRotation, yMin, yMax);
-        xRotation = Math.Clamp(xRotation, xMin, xMax);
+            yRotation = Math.Clamp(yRotation, yMin, yMax);
+            xRotation = Math.Clamp(xRotation, xMin, xMax);
 
 
-        Quaternion localRotation = Quaternion.Euler(xRotation, yRotation, 0.0f);
-        transform.rotation = localRotation;
+            Quaternion localRotation = Quaternion.Euler(xRotation, yRotation, 0.0f);
+            transform.rotation = localRotation;
 
-        if (Input.GetKeyDown("1")) {
-            //direct shot
-            shootMode = 1;
-        }
-        if (Input.GetKeyDown("2")) {
-            //arcing shot
-            shootMode = 2;
-        }
+            if (Input.GetKeyDown("1"))
+            {
+                //direct shot
+                shootMode = 1;
+            }
 
-        timeSinceThrow += Time.deltaTime;
+            if (Input.GetKeyDown("2"))
+            {
+                //arcing shot
+                shootMode = 2;
+            }
 
-        if (Input.GetMouseButtonDown(0)) {
+            timeSinceThrow += Time.deltaTime;
 
-            /*currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
-            ballRB = currentBall.GetComponent<Rigidbody>();
+            if (Input.GetMouseButtonDown(0))
+            {
 
-            RaycastHit hit;
-            Ray ray = new Ray(transform.position, transform.forward);*/
-            
-
-            
-            // Debug.DrawRay(transform.position, normalizedSideToSide, Color.red, 5);
-
-            /*if (shootMode == 1) {
-                currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+                /*currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
                 ballRB = currentBall.GetComponent<Rigidbody>();
-                normalizedSideToSide = transform.forward.normalized;
-                
-                // Cast a ray out.
-                if (Physics.Raycast(ray, out hit))
-                {
-                    //Add v_x
-                    ballRB.velocity = normalizedSideToSide * normalDistance * (float)(Math.Cos(transform.forward.y));
-                    //Add v_y
-                    ballRB.velocity += Vector3.up * normalDistance * ((float)(Math.Sin(transform.forward.y)) + (4.9f * hit.distance / (normalDistance * normalDistance)));
-                } else {
-                    //Add v_x
-                    ballRB.velocity = normalizedSideToSide * normalDistance;
-                    //Add v_y
-                    ballRB.velocity += Vector3.up * (normalDistance * (float)(Math.Tan(transform.forward.y)) + 4.9f);
+
+                RaycastHit hit;
+                Ray ray = new Ray(transform.position, transform.forward);*/
+
+
+
+                // Debug.DrawRay(transform.position, normalizedSideToSide, Color.red, 5);
+
+                /*if (shootMode == 1) {
+                    currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+                    ballRB = currentBall.GetComponent<Rigidbody>();
+                    normalizedSideToSide = transform.forward.normalized;
+                    
+                    // Cast a ray out.
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        //Add v_x
+                        ballRB.velocity = normalizedSideToSide * normalDistance * (float)(Math.Cos(transform.forward.y));
+                        //Add v_y
+                        ballRB.velocity += Vector3.up * normalDistance * ((float)(Math.Sin(transform.forward.y)) + (4.9f * hit.distance / (normalDistance * normalDistance)));
+                    } else {
+                        //Add v_x
+                        ballRB.velocity = normalizedSideToSide * normalDistance;
+                        //Add v_y
+                        ballRB.velocity += Vector3.up * (normalDistance * (float)(Math.Tan(transform.forward.y)) + 4.9f);
+                    }
+                    Destroy(currentBall, ballDestroyTime);
+                } else if (shootMode == 2 && timeSinceThrow > cooldown) {
+                    // if (Physics.Raycast(ray, out hit))
+                    // {
+                    //     float effDist = hit.distance + 1f;
+                    //     
+                    //     double hitTime = Math.Sqrt(effDist * (1.73 * Math.Cos(transform.forward.y) - Math.Sin(transform.forward.y)) / 4.9);
+                    //
+                    //     float velX = effDist * (float)(Math.Cos(transform.forward.y)) / (float)(hitTime);
+                    //
+                    //     ballRB.velocity = normalizedSideToSide * velX;
+                    //
+                    //     ballRB.velocity += Vector3.up * velX * 1.73f;
+                    //
+                    // } else {
+                    //     float vel = 10f;
+                    //
+                    //     ballRB.velocity = normalizedSideToSide * vel;
+                    //
+                    //     ballRB.velocity += Vector3.up * vel * 1.73f;
+                    // }
+                    //currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+                    //ballRB = currentBall.GetComponent<Rigidbody>();
+                    normalizedSideToSide = transform.forward.normalized;
+                    
+                    //ballRB.useGravity = false;
+                    throwing = true;
                 }
-                Destroy(currentBall, ballDestroyTime);
-            } else if (shootMode == 2 && timeSinceThrow > cooldown) {
-                // if (Physics.Raycast(ray, out hit))
-                // {
-                //     float effDist = hit.distance + 1f;
-                //     
-                //     double hitTime = Math.Sqrt(effDist * (1.73 * Math.Cos(transform.forward.y) - Math.Sin(transform.forward.y)) / 4.9);
-                //
-                //     float velX = effDist * (float)(Math.Cos(transform.forward.y)) / (float)(hitTime);
-                //
-                //     ballRB.velocity = normalizedSideToSide * velX;
-                //
-                //     ballRB.velocity += Vector3.up * velX * 1.73f;
-                //
-                // } else {
-                //     float vel = 10f;
-                //
-                //     ballRB.velocity = normalizedSideToSide * vel;
-                //
-                //     ballRB.velocity += Vector3.up * vel * 1.73f;
-                // }
-                //currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
-                //ballRB = currentBall.GetComponent<Rigidbody>();
-                normalizedSideToSide = transform.forward.normalized;
-                
-                //ballRB.useGravity = false;
+                //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;*/
+            }
+
+            if (Input.GetMouseButtonDown(0) && shootMode == 2 && timeSinceThrow > cooldown)
+            {
+
+                if (deleting != null) StopCoroutine(deleting);
+                line.startColor = new Color(1f, .5608f, .0118f, .8f);
+                line.endColor = new Color(1f, .2823f, 0f, .8f);
                 throwing = true;
             }
-            //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;*/
-        }
 
-        if (Input.GetMouseButtonDown(0) && shootMode == 2 && timeSinceThrow > cooldown) {
-            
-            if (deleting != null) StopCoroutine(deleting);
-            line.startColor = new Color(1f, .5608f, .0118f, .8f);
-            line.endColor = new Color(1f, .2823f, 0f, .8f);
-            throwing = true;
-        }
+            if (Input.GetMouseButton(0) && throwing && shootMode == 2) //charging
+            {
+                if (chargedVelocity < maxChargedVelocity)
+                {
+                  chargedVelocity += chargeRate * Time.deltaTime;  
+                }
+                normalizedSideToSide = transform.forward.normalized;
 
-        if (Input.GetMouseButton(0) && throwing && shootMode == 2) //charging
-        {
-            chargedVelocity += chargeRate * Time.deltaTime;
-            normalizedSideToSide = transform.forward.normalized;
+                Vector3 prelimVel = normalizedSideToSide * chargedVelocity;
+                prelimVel += chargedVelocity * 1.73f * Vector3.up;
 
-            Vector3 prelimVel = normalizedSideToSide * chargedVelocity;
-            prelimVel += chargedVelocity * 1.73f * Vector3.up;
+                DrawShootingLine(prelimVel);
+            }
 
-            DrawShootingLine(prelimVel);
-        }
-
-        if (Input.GetMouseButtonUp(0) && throwing && shootMode == 2) //mouse up, shoot
-        {
-            deleting = EraseShootingLine();
-            StartCoroutine(deleting);
-            currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
-            ballRB = currentBall.GetComponent<Rigidbody>();
-            ballRB.useGravity = true;
-            ballRB.velocity = normalizedSideToSide * chargedVelocity;
-            ballRB.velocity += chargedVelocity * 1.73f * Vector3.up;
-            Destroy(currentBall, ballDestroyTime);
-            chargedVelocity = minChargedVelocity;
-            timeSinceThrow = 0;
-            throwing = false;
+            if (Input.GetMouseButtonUp(0) && throwing && shootMode == 2) //mouse up, shoot
+            {
+                deleting = EraseShootingLine();
+                StartCoroutine(deleting);
+                currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+                ballRB = currentBall.GetComponent<Rigidbody>();
+                ballRB.useGravity = true;
+                ballRB.velocity = normalizedSideToSide * chargedVelocity;
+                ballRB.velocity += chargedVelocity * 1.73f * Vector3.up;
+                Destroy(currentBall, ballDestroyTime);
+                chargedVelocity = minChargedVelocity;
+                timeSinceThrow = 0;
+                throwing = false;
+            }
         }
     }
 

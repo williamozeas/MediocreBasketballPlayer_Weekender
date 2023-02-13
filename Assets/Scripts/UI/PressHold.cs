@@ -20,7 +20,7 @@ public class PressHold : MonoBehaviour
     void Start()
     {
         // slider_StartingValue = 0;
-        slider_EndValue = slider_StartingValue * 10f;
+        slider_EndValue = GameManager.Instance.Player.maxChargedVelocity;
         slider_MinValue = 0;
         slider.maxValue = slider_EndValue; // max power, to be set
         slider_Fill.color = slider_GradientColor.Evaluate(1f);
@@ -29,10 +29,10 @@ public class PressHold : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space)) // The Button Space is in Hold State
+        if (GameManager.Instance.Player.IsThrowing) // The Button Space is in Hold State
         {
             slider_BGFill = true;
-            slider_StartingValue = Mathf.MoveTowards(slider_StartingValue, slider_EndValue, 1.5f * Time.deltaTime);
+            slider_StartingValue = GameManager.Instance.Player.chargedVelocity;
         }
         else // The Button is Released or No Action Performed
         {
@@ -40,7 +40,7 @@ public class PressHold : MonoBehaviour
             slider_StartingValue = Mathf.MoveTowards(slider_StartingValue, slider_MinValue, 4f * Time.deltaTime);
         }
 
-        slider.value = slider_StartingValue;
+        slider.normalizedValue = slider_StartingValue/slider_EndValue;
 
         // if (Input.GetKeyDown(KeyCode.E))
         // {
@@ -62,7 +62,5 @@ public class PressHold : MonoBehaviour
         {
             slider_Fill.color = slider_PlainColor.Evaluate(slider.normalizedValue);
         }
-
-
     }
 }

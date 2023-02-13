@@ -50,7 +50,6 @@ public class Enemy : MonoBehaviour
     //TODO: be called when enemy hits the player
     protected virtual IEnumerator Attack()
     {
-        Debug.Log("attack");
         GameManager.Instance.Player.TakeDamage(stats.damage);
         StopCoroutine(movingCoroutine);
         yield return null;
@@ -93,14 +92,13 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 6)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Basketballs"))
         //Hit a ball
         {
             TakeDamage(GameManager.Instance.Player.damage);
         } else if (other.gameObject.CompareTag("MainCamera"))
         {
             StartCoroutine(Attack());
-            Debug.Log("Attacked");
             //TODO: sfx, etc?
             Destroy(gameObject);
         }

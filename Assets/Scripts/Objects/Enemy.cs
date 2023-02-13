@@ -7,6 +7,7 @@ public class EnemyStats
 {
     public int health = 5;
     public int damage = 5;
+    public float speed = 0.5f;
 
     public EnemyStats(int health_, int damage_)
     {
@@ -23,11 +24,10 @@ public class Enemy : MonoBehaviour
     
     [Header("Current Stats")]
     public int health = 5;
-    public int damage = 10;
-    public float speed = 1f;
 
     private Coroutine movingCoroutine;
     ParticleSystem explosion;
+    private Rigidbody rigidbody;
     
     // Start is called on spawn
     void Start()
@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour
         movingCoroutine = StartCoroutine(MoveTowardsPlayer());
         health = stats.health;
         explosion = GetComponent<ParticleSystem>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     protected virtual void TakeDamage(int damage)
@@ -49,6 +50,7 @@ public class Enemy : MonoBehaviour
     //TODO: be called when enemy hits the player
     protected virtual IEnumerator Attack()
     {
+        Debug.Log("attack");
         GameManager.Instance.Player.TakeDamage(stats.damage);
         StopCoroutine(movingCoroutine);
         yield return null;
@@ -76,28 +78,31 @@ public class Enemy : MonoBehaviour
 
     protected virtual IEnumerator MoveTowardsPlayer()
     {
-        //loop is infinite until these can die
+        if (!rigidbody)
+        {
+            rigidbody = GetComponent<Rigidbody>();
+        }
         while (GameManager.Instance.GameState == GameState.Playing && health > 0)
         {
             Vector3 playerPos = GameManager.Instance.Player.transform.position;
-            transform.LookAt(new Vector3(playerPos.x, 1, playerPos.y));
-            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+            transform.LookAt(playerPos, Vector3.up);
+            rigidbody.velocity = transform.forward * stats.speed;
             yield return null;
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.layer == 6)
         //Hit a ball
         {
-            health -= GameManager.Instance.Player.damage;
-            StartCoroutine(Die());   
+            TakeDamage(GameManager.Instance.Player.damage);
         } else if (other.gameObject.CompareTag("MainCamera"))
         {
-            GameManager.Instance.Player.TakeDamage(damage);
+            StartCoroutine(Attack());
+            Debug.Log("Attacked");
             //TODO: sfx, etc?
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }

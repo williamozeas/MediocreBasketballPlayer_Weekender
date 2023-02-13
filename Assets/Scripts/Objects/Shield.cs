@@ -43,7 +43,7 @@ public class Shield : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("colliding");
+        //Debug.Log("colliding");
         if (collision.collider.gameObject.layer == 6)
         //Hit a ball
         {

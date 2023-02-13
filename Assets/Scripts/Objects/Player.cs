@@ -48,6 +48,12 @@ public class Player : MonoBehaviour
 
     private IEnumerator deleting;
 
+    public GameObject handBall;
+    private Vector3 handBallPos = new Vector3 (0.0285f, -0.0805f, 0.0235f);
+    private Vector3 handBallShotPos = new Vector3 (0.1285f, -0.1805f, 0.1235f);
+    private Vector3 handDir = new Vector3 (1f, -1f, -1f);
+    private float handMoveSpeed = .001f;
+
     private void Awake()
     {
         GameManager.Instance.SetPlayer(this);
@@ -60,6 +66,7 @@ public class Player : MonoBehaviour
         chargedVelocity = minChargedVelocity;
         line.positionCount = lineNumber;
         health = maxHealth;
+        handBallPos = handBall.transform.localPosition;
     }
 
     private void OnEnable()
@@ -108,6 +115,7 @@ public class Player : MonoBehaviour
             }
 
             timeSinceThrow += Time.deltaTime;
+
 
             /*if (Input.GetMouseButtonDown(0)) {
 
@@ -187,6 +195,8 @@ public class Player : MonoBehaviour
                 Vector3 prelimVel = normalizedSideToSide * chargedVelocity;
                 prelimVel += chargedVelocity * 1.73f * Vector3.up;
 
+                if (handBall.transform.localPosition.x < handBallShotPos.x) handBall.transform.localPosition += handDir * handMoveSpeed;
+
                 DrawShootingLine(prelimVel);
             } else if (Input.GetMouseButton(0) && throwing && shootMode == 1) {
                 if(chargedVelocity < maxChargedVelocity * 3) {
@@ -197,7 +207,11 @@ public class Player : MonoBehaviour
                 Vector3 prelimVel = normalizedSideToSide * chargedVelocity;
                 prelimVel += chargedVelocity * .36f * Vector3.up;
 
+                if (handBall.transform.localPosition.x < handBallShotPos.x) handBall.transform.localPosition += handDir * handMoveSpeed;
+
                 DrawShootingLine(prelimVel);
+            } else {
+                if (handBall.transform.localPosition.x > handBallPos.x) handBall.transform.localPosition -= handDir * handMoveSpeed * .75f;
             }
 
             if (Input.GetMouseButtonUp(1) && throwing && shootMode == 2) //mouse up, shoot

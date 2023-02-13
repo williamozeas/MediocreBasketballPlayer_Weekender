@@ -53,11 +53,28 @@ public class Player : MonoBehaviour
     void Start()
     {
         shootMode = 2;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         chargedVelocity = minChargedVelocity;
         line.positionCount = lineNumber;
     }
+
+    private void OnEnable()
+    {
+        GameManager.GameStart += OnGameStart;
+        GameManager.GameOver += OnGameOver;
+    }
+    
+    private void OnGameStart()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void OnGameOver()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
 
     // Update is called once per frame
     void Update()

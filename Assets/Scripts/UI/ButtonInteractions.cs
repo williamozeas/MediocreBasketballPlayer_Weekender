@@ -11,12 +11,14 @@ public class ButtonInteractions : MonoBehaviour
     public GameObject EndingPage;
 
     public void clickStartFromMain() {
+        Debug.Log("CLICKED");
         LandingPage.gameObject.SetActive(false);
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(true);
         EndingPage.gameObject.SetActive(false);
+        MainBackground.SetActive(false);
 
-        // GameManager.Instance.GameState = GameState.Playing;
+        GameManager.Instance.GameState = GameState.Playing;
     }
 
     public void clickHowToPlayFromMain() {
@@ -24,6 +26,7 @@ public class ButtonInteractions : MonoBehaviour
         HowToPlayPage.gameObject.SetActive(true);
         PlayPage.gameObject.SetActive(false);
         EndingPage.gameObject.SetActive(false);
+        MainBackground.SetActive(true);
     }
 
     public void clickStartFromHowToPlay() {
@@ -31,6 +34,7 @@ public class ButtonInteractions : MonoBehaviour
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(true);
         EndingPage.gameObject.SetActive(false);
+        MainBackground.SetActive(false);
 
         // GameManager.Instance.GameState = GameState.Playing;
     }
@@ -40,6 +44,7 @@ public class ButtonInteractions : MonoBehaviour
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(false);
         EndingPage.gameObject.SetActive(false);
+        MainBackground.SetActive(true);
     }
 
     public void clickExitFromEnd() {
@@ -47,6 +52,7 @@ public class ButtonInteractions : MonoBehaviour
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(false);
         EndingPage.gameObject.SetActive(false);
+        MainBackground.SetActive(true);
     }
 
     public void clickPlayAgainFromEnd() {
@@ -54,6 +60,7 @@ public class ButtonInteractions : MonoBehaviour
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(true);
         EndingPage.gameObject.SetActive(false);
+        MainBackground.SetActive(false);
     }
 
     void Start()

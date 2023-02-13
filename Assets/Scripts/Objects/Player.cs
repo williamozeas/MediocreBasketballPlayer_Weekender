@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public float minChargedVelocity = 2f;
     public float maxChargedVelocity = 9f;
     [HideInInspector] public float chargedVelocity = 0f;
+    [HideInInspector] public float percentCharge = 0f;
     
     private float sensitivity = 600f;
 
@@ -186,7 +187,7 @@ public class Player : MonoBehaviour
 
                 DrawShootingLine(prelimVel);
             } else if (Input.GetMouseButton(0) && throwing && shootMode == 1) {
-                if(chargedVelocity < maxChargedVelocity) {
+                if(chargedVelocity < maxChargedVelocity * 3) {
                     chargedVelocity += chargeRate * Time.deltaTime * 3;
                 }
                 normalizedSideToSide = transform.forward.normalized;
@@ -223,6 +224,12 @@ public class Player : MonoBehaviour
                 chargedVelocity = minChargedVelocity;
                 timeSinceThrow = 0;
                 throwing = false;
+            }
+
+            if (shootMode == 1) {
+                percentCharge = chargedVelocity / (maxChargedVelocity * 3);
+            } else if (shootMode == 2) {
+                percentCharge = chargedVelocity / (maxChargedVelocity);
             }
         }
     }

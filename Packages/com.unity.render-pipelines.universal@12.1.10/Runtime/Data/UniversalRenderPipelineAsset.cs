@@ -27,7 +27,8 @@ namespace UnityEngine.Rendering.Universal
         _1024 = 1024,
         _2048 = 2048,
         _4096 = 4096,
-        _8192 = 8192
+        _8192 = 8192,
+        _16384 = 16384
     }
 
     public enum LightCookieResolution

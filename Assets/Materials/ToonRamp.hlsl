@@ -34,7 +34,8 @@ in float ToonRampOffset, in float ToonRampOffsetPoint, in float Ambient, out flo
 		// toonramp in a smoothstep
 		half toonRamp = smoothstep(ToonRampOffset, ToonRampOffset+ ToonRampSmoothness, d );
 		
-		
+		// multiply with shadows;
+		// toonRamp *= light.shadowAttenuation;
 
 		float3 extraLights;
 		// get the number of point/spot lights

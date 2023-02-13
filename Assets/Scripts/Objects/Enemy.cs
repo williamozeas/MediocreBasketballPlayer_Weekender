@@ -23,7 +23,6 @@ public class Enemy : MonoBehaviour
     
     [Header("Current Stats")]
     public int health = 5;
-    public int damage = 10;
     public float speed = 1f;
 
     private Coroutine movingCoroutine;
@@ -51,6 +50,7 @@ public class Enemy : MonoBehaviour
     //TODO: be called when enemy hits the player
     protected virtual IEnumerator Attack()
     {
+        Debug.Log("attack");
         GameManager.Instance.Player.TakeDamage(stats.damage);
         StopCoroutine(movingCoroutine);
         yield return null;
@@ -91,19 +91,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.layer == 6)
         //Hit a ball
         {
-            health -= GameManager.Instance.Player.damage;
-            if (health < 0)
-            {
-                StartCoroutine(Die());
-            }
+            TakeDamage(GameManager.Instance.Player.damage);
         } else if (other.gameObject.CompareTag("MainCamera"))
         {
-            GameManager.Instance.Player.TakeDamage(damage);
+            StartCoroutine(Attack());
+            Debug.Log("Attacked");
             //TODO: sfx, etc?
             Destroy(this);
         }

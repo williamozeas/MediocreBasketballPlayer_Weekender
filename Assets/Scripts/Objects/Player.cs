@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public int health = 100;
     public int damage = 5;
+    public float cooldown = 0.5f;
     
 
     private float yMin = -40f;
@@ -36,6 +37,8 @@ public class Player : MonoBehaviour
     private GameObject currentBall;
     private Rigidbody ballRB;
     private Vector3 normalizedSideToSide;
+    private float timeSinceThrow = 0;
+    private bool throwing = false;
     
 
     private void Awake()
@@ -78,19 +81,24 @@ public class Player : MonoBehaviour
             shootMode = 2;
         }
 
+        timeSinceThrow += Time.deltaTime;
+
         if (Input.GetMouseButtonDown(0)) {
 
-            currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
-            ballRB = currentBall.GetComponent<Rigidbody>();
+            
 
             RaycastHit hit;
             Ray ray = new Ray(transform.position, transform.forward);
             
 
-            normalizedSideToSide = transform.forward.normalized;
+            
             // Debug.DrawRay(transform.position, normalizedSideToSide, Color.red, 5);
 
             if (shootMode == 1) {
+                currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+                ballRB = currentBall.GetComponent<Rigidbody>();
+                normalizedSideToSide = transform.forward.normalized;
+                
                 // Cast a ray out.
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -105,7 +113,7 @@ public class Player : MonoBehaviour
                     ballRB.velocity += Vector3.up * (normalDistance * (float)(Math.Tan(transform.forward.y)) + 4.9f);
                 }
                 Destroy(currentBall, ballDestroyTime);
-            } else if (shootMode == 2) {
+            } else if (shootMode == 2 && timeSinceThrow > cooldown) {
                 // if (Physics.Raycast(ray, out hit))
                 // {
                 //     float effDist = hit.distance + 1f;
@@ -125,17 +133,22 @@ public class Player : MonoBehaviour
                 //
                 //     ballRB.velocity += Vector3.up * vel * 1.73f;
                 // }
+                currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+                ballRB = currentBall.GetComponent<Rigidbody>();
+                normalizedSideToSide = transform.forward.normalized;
+                
                 ballRB.useGravity = false;
+                throwing = true;
             }
             //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;
         }
 
-        if (Input.GetMouseButton(0) && shootMode == 2) //charging
+        if (Input.GetMouseButton(0) && throwing && shootMode == 2) //charging
         {
             chargedVelocity += chargeRate * Time.deltaTime;
         }
 
-        if (Input.GetMouseButtonUp(0) && shootMode == 2) //mouse up, shoot
+        if (Input.GetMouseButtonUp(0) && throwing && shootMode == 2) //mouse up, shoot
         {
             ballRB.useGravity = true;
             Debug.Log(chargedVelocity);
@@ -143,6 +156,8 @@ public class Player : MonoBehaviour
             ballRB.velocity += chargedVelocity * 1.73f * Vector3.up;
             Destroy(currentBall, ballDestroyTime);
             chargedVelocity = minChargedVelocity;
+            timeSinceThrow = 0;
+            throwing = false;
         }
     }
 

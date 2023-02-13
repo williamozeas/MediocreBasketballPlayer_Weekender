@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int health = 100;
+    public int maxHealth = 100;
+    [HideInInspector] public int health = 100;
     public int damage = 5;
     public float cooldown = 0.5f;
 
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
         shootMode = 1;
         chargedVelocity = minChargedVelocity;
         line.positionCount = lineNumber;
+        health = maxHealth;
     }
 
     private void OnEnable()

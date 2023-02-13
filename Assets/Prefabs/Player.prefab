@@ -152,6 +152,8 @@ MonoBehaviour:
   ballPrefab: {fileID: 6918321547930112804, guid: ba7583b0309164ea6a6722ef355dd4b3,
     type: 3}
   line: {fileID: 3629261543401092692}
+  handBall: {fileID: 6918321547930112804, guid: ba7583b0309164ea6a6722ef355dd4b3,
+    type: 3}
 --- !u!136 &3629261543401092693
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -43,12 +43,6 @@ public class Player : MonoBehaviour
     private int lineNumber = 20;
 
     private IEnumerator deleting;
-    
-    public LineRenderer line;
-    private int lineNumber = 20;
-
-    private IEnumerator deleting;
-    
 
     private void Awake()
     {
@@ -95,17 +89,17 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) {
 
-            currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+            /*currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
             ballRB = currentBall.GetComponent<Rigidbody>();
 
             RaycastHit hit;
-            Ray ray = new Ray(transform.position, transform.forward);
+            Ray ray = new Ray(transform.position, transform.forward);*/
             
 
             
             // Debug.DrawRay(transform.position, normalizedSideToSide, Color.red, 5);
 
-            if (shootMode == 1) {
+            /*if (shootMode == 1) {
                 currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
                 ballRB = currentBall.GetComponent<Rigidbody>();
                 normalizedSideToSide = transform.forward.normalized;
@@ -144,20 +138,22 @@ public class Player : MonoBehaviour
                 //
                 //     ballRB.velocity += Vector3.up * vel * 1.73f;
                 // }
-                currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
-                ballRB = currentBall.GetComponent<Rigidbody>();
+                //currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+                //ballRB = currentBall.GetComponent<Rigidbody>();
                 normalizedSideToSide = transform.forward.normalized;
                 
-                ballRB.useGravity = false;
+                //ballRB.useGravity = false;
                 throwing = true;
             }
-            //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;
-        }*/
+            //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;*/
+        }
 
-        if (Input.GetMouseButtonDown(0)) {
-            StopCoroutine(deleting);
+        if (Input.GetMouseButtonDown(0) && shootMode == 2 && timeSinceThrow > cooldown) {
+            
+            if (deleting != null) StopCoroutine(deleting);
             line.startColor = new Color(1f, .5608f, .0118f, .8f);
             line.endColor = new Color(1f, .2823f, 0f, .8f);
+            throwing = true;
         }
 
         if (Input.GetMouseButton(0) && throwing && shootMode == 2) //charging

@@ -42,7 +42,7 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator EndRound()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(0.5f);
         
         //temp: end game
         GameManager.Instance.GameState = GameState.GameEnd;

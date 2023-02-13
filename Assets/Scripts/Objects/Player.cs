@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
 {
     public int health = 100;
     public int damage = 5;
-    
 
     private float yMin = -40f;
     private float yMax = 40f;
@@ -37,6 +36,11 @@ public class Player : MonoBehaviour
     private Rigidbody ballRB;
     private Vector3 normalizedSideToSide;
     
+    public LineRenderer line;
+    private int lineNumber = 20;
+
+    private IEnumerator deleting;
+    
 
     private void Awake()
     {
@@ -50,6 +54,7 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         chargedVelocity = minChargedVelocity;
+        line.positionCount = lineNumber;
     }
 
     // Update is called once per frame
@@ -78,7 +83,7 @@ public class Player : MonoBehaviour
             shootMode = 2;
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        /*if (Input.GetMouseButtonDown(0)) {
 
             currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
             ballRB = currentBall.GetComponent<Rigidbody>();
@@ -128,15 +133,31 @@ public class Player : MonoBehaviour
                 ballRB.useGravity = false;
             }
             //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;
+        }*/
+
+        if (Input.GetMouseButtonDown(0)) {
+            StopCoroutine(deleting);
+            line.startColor = new Color(1f, .5608f, .0118f, .8f);
+            line.endColor = new Color(1f, .2823f, 0f, .8f);
         }
 
         if (Input.GetMouseButton(0) && shootMode == 2) //charging
         {
             chargedVelocity += chargeRate * Time.deltaTime;
+            normalizedSideToSide = transform.forward.normalized;
+
+            Vector3 prelimVel = normalizedSideToSide * chargedVelocity;
+            prelimVel += chargedVelocity * 1.73f * Vector3.up;
+
+            DrawShootingLine(prelimVel);
         }
 
         if (Input.GetMouseButtonUp(0) && shootMode == 2) //mouse up, shoot
         {
+            deleting = EraseShootingLine();
+            StartCoroutine(deleting);
+            currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
+            ballRB = currentBall.GetComponent<Rigidbody>();
             ballRB.useGravity = true;
             Debug.Log(chargedVelocity);
             ballRB.velocity = normalizedSideToSide * chargedVelocity;
@@ -144,6 +165,38 @@ public class Player : MonoBehaviour
             Destroy(currentBall, ballDestroyTime);
             chargedVelocity = minChargedVelocity;
         }
+    }
+
+    IEnumerator EraseShootingLine () {
+        for (float i = .8f; i >= 0f; i -= .02f) {
+            line.startColor = new Color(1f, .5608f, .0118f, i);
+            line.endColor = new Color(1f, .2823f, 0f, i);
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    private void DrawShootingLine (Vector3 vel) {
+
+        float timeToDraw = (vel.y + (float)Math.Sqrt(vel.y * vel.y + 39.2f)) / 9.8f;
+
+        Debug.Log("drawing");
+
+        for (int i = 0; i < lineNumber; i++) {
+            line.SetPosition(i, CalculatePos(vel, timeToDraw * i / lineNumber));
+            //line.SetPosition(i, new Vector3(0, 0, i));
+        }
+       
+    }
+
+    private Vector3 CalculatePos (Vector3 vel, float t) {
+
+        Vector3 vel_h = new Vector3(vel.x, 0f, vel.z);
+
+        Vector3 pos = transform.position;
+        pos += vel_h * t;
+        pos.y += vel.y * t - 4.9f * t * t;
+
+        return pos;
     }
 
     public void TakeDamage(int damageTaken)

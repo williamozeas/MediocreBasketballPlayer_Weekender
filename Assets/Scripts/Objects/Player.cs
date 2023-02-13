@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
     private Vector3 handBallShotPos = new Vector3 (0.1285f, -0.1805f, 0.1235f);
     private Vector3 handDir = new Vector3 (1f, -1f, -1f);
     private float handMoveSpeed = .001f;
+    private Vector3 handLastPos;
 
     private void Awake()
     {
@@ -210,13 +211,12 @@ public class Player : MonoBehaviour
                 if (handBall.transform.localPosition.x < handBallShotPos.x) handBall.transform.localPosition += handDir * handMoveSpeed;
 
                 DrawShootingLine(prelimVel);
-            } else {
-                if (handBall.transform.localPosition.x > handBallPos.x) handBall.transform.localPosition -= handDir * handMoveSpeed * .75f;
             }
 
             if (Input.GetMouseButtonUp(1) && throwing && shootMode == 2) //mouse up, shoot
             {
-                deleting = EraseShootingLine();
+                handLastPos = handBall.transform.localPosition;
+                deleting = EraseShootingLine(2);
                 StartCoroutine(deleting);
                 currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
                 ballRB = currentBall.GetComponent<Rigidbody>();
@@ -229,7 +229,8 @@ public class Player : MonoBehaviour
                 throwing = false;
             } else if (Input.GetMouseButtonUp(0) && throwing && shootMode == 1) //mouse up, shoot
             {
-                deleting = EraseShootingLine();
+                handLastPos = handBall.transform.localPosition;
+                deleting = EraseShootingLine(1);
                 StartCoroutine(deleting);
                 currentBall = Instantiate(ballPrefab, transform.position, Quaternion.identity) as GameObject;
                 ballRB = currentBall.GetComponent<Rigidbody>();
@@ -242,6 +243,12 @@ public class Player : MonoBehaviour
                 throwing = false;
             }
 
+            if (!throwing) {
+                float time = timeSinceThrow / cooldown;
+                float timeScale = Mathf.Clamp01(time);
+                handBall.transform.localPosition = Vector3.Slerp(handLastPos, handBallPos, timeScale);
+            }
+
             if (shootMode == 1) {
                 percentCharge = chargedVelocity / (maxChargedVelocity * 3);
             } else if (shootMode == 2) {
@@ -250,11 +257,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator EraseShootingLine () {
+    IEnumerator EraseShootingLine (int shootMode) {
         for (float i = .8f; i >= 0f; i -= .02f) {
             line.startColor = new Color(1f, .5608f, .0118f, i);
             line.endColor = new Color(1f, .2823f, 0f, i);
-            yield return new WaitForSeconds(0.05f);
+            if (shootMode == 2) yield return new WaitForSeconds(0.05f);
+            else yield return new WaitForSeconds(0.02f);
         }
     }
 

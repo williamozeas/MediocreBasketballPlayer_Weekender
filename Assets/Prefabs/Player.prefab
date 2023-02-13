@@ -152,6 +152,7 @@ MonoBehaviour:
   ballPrefab: {fileID: 6918321547930112804, guid: ba7583b0309164ea6a6722ef355dd4b3,
     type: 3}
   line: {fileID: 3629261543401092692}
+  handBall: {fileID: 0}
 --- !u!136 &3629261543401092693
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -401,6 +402,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hand
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2a19d517349d941c18c4fdff7a0052eb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a19d517349d941c18c4fdff7a0052eb, type: 3}
 --- !u!4 &5475707889917371129 stripped
@@ -496,7 +502,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basketball
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6918321547930112804, guid: ba7583b0309164ea6a6722ef355dd4b3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6760651488906123849, guid: ba7583b0309164ea6a6722ef355dd4b3, type: 3}
+    - {fileID: 3136768818789687943, guid: ba7583b0309164ea6a6722ef355dd4b3, type: 3}
+    - {fileID: 7616178077767302535, guid: ba7583b0309164ea6a6722ef355dd4b3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ba7583b0309164ea6a6722ef355dd4b3, type: 3}
 --- !u!4 &9209294936868108596 stripped
 Transform:

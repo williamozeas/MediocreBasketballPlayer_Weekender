@@ -6,10 +6,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int health = 100;
+    public int damage = 5;
     
 
-    private float yMin = -60f;
-    private float yMax = 60f;
+    private float yMin = -40f;
+    private float yMax = 40f;
     //side to side turn
     private float xMin = -40f;
     private float xMax = 40f;
@@ -84,8 +85,10 @@ public class Player : MonoBehaviour
 
             RaycastHit hit;
             Ray ray = new Ray(transform.position, transform.forward);
+            
 
-            normalizedSideToSide = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
+            normalizedSideToSide = transform.forward.normalized;
+            // Debug.DrawRay(transform.position, normalizedSideToSide, Color.red, 5);
 
             if (shootMode == 1) {
                 // Cast a ray out.

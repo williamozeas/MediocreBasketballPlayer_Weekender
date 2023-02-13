@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     
     [Header("Current Stats")]
     public int health = 5;
+    public int damage = 10;
+    public float speed = 1f;
 
     private Coroutine movingCoroutine;
     ParticleSystem explosion;
@@ -64,6 +66,7 @@ public class Enemy : MonoBehaviour
         yield return null;
         
         //TODO: death animation, particle effects, etc.
+        //Particle
         GetComponent<MeshRenderer>().enabled = false;
         explosion.Play();
         yield return new WaitForSeconds(0.3f);
@@ -74,11 +77,13 @@ public class Enemy : MonoBehaviour
     protected virtual IEnumerator MoveTowardsPlayer()
     {
         //loop is infinite until these can die
-        // while (GameManager.Instance.GameState = GameState.Playing)
-        // {
-        //     yield return null;
-        // }
-        yield return null;
+        while (GameManager.Instance.GameState == GameState.Playing && health > 0)
+        {
+            Vector3 playerPos = GameManager.Instance.Player.transform.position;
+            transform.LookAt(new Vector3(playerPos.x, 1, playerPos.y));
+            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+            yield return null;
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -86,8 +91,13 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.layer == 6)
         //Hit a ball
         {
-            //Particle
+            health -= GameManager.Instance.Player.damage;
             StartCoroutine(Die());   
+        } else if (other.gameObject.CompareTag("MainCamera"))
+        {
+            GameManager.Instance.Player.TakeDamage(damage);
+            //TODO: sfx, etc?
+            Destroy(this);
         }
     }
 }

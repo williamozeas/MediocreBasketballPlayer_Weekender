@@ -40,9 +40,12 @@ public class PressHold : MonoBehaviour
             slider_StartingValue = Mathf.MoveTowards(slider_StartingValue, slider_MinValue, 4f * Time.deltaTime);
         }
 
-        slider.normalizedValue = slider_StartingValue/slider_EndValue;
+        slider.normalizedValue = slider_StartingValue;
 
-        // if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("aaa");
+        }
         // {
         //     if (slider_BGFill == false) 
         //     {

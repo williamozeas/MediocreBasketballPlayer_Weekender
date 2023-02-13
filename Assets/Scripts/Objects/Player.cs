@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private float xRotation = 0f;
 
     public float chargeRate = 20f;
-    public float minChargedVelocity = 2f;
+    public float minChargedVelocity = 1f;
     private float chargedVelocity = 0f;
     
     private float sensitivity = 600f;

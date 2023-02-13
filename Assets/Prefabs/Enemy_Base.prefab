@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 7119764865057814721}
   m_Layer: 7
   m_Name: Enemy_Base
-  m_TagString: Untagged
+  m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 1546565861786454647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2791955094699605870}
@@ -117,7 +117,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.11
-  m_Height: 0.4
+  m_Height: 0.3
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0.04}
 --- !u!114 &2278289230288402551
@@ -4927,9 +4927,9 @@ GameObject:
   - component: {fileID: 2791955094699605870}
   - component: {fileID: 9169569369484715327}
   - component: {fileID: 476397736902609969}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: smallEnemy
-  m_TagString: Untagged
+  m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5010,9 +5010,9 @@ GameObject:
   - component: {fileID: 6959150946540427039}
   - component: {fileID: 1726012585661321524}
   - component: {fileID: 3972839672626369840}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: teeth
-  m_TagString: Untagged
+  m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

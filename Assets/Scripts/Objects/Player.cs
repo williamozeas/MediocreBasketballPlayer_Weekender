@@ -98,11 +98,11 @@ public class Player : MonoBehaviour
             Quaternion localRotation = Quaternion.Euler(xRotation, yRotation, 0.0f);
             transform.rotation = localRotation;
 
-            if (Input.GetKeyDown("1")) {
+            if (Input.GetMouseButtonDown(0)) {
                 //direct shot
                 shootMode = 1;
             }
-            if (Input.GetKeyDown("2")) {
+            if (Input.GetMouseButtonDown(1)) {
                 //arcing shot
                 shootMode = 2;
             }
@@ -170,14 +170,14 @@ public class Player : MonoBehaviour
                 //ballRB.velocity = ball.transform.forward * 10f + ball.transform.up * 10f;
             }*/
 
-            if (Input.GetMouseButtonDown(0) && timeSinceThrow > cooldown) {
+            if (Input.GetMouseButtonDown(0) && timeSinceThrow > cooldown || Input.GetMouseButtonDown(1) && timeSinceThrow > cooldown) {
                 if (deleting != null) StopCoroutine(deleting);
                 line.startColor = new Color(1f, .5608f, .0118f, .8f);
                 line.endColor = new Color(1f, .2823f, 0f, .8f);
                 throwing = true;
             }
 
-            if (Input.GetMouseButton(0) && throwing && shootMode == 2) //charging
+            if (Input.GetMouseButton(1) && throwing && shootMode == 2) //charging
             {
                 if(chargedVelocity < maxChargedVelocity) {
                     chargedVelocity += chargeRate * Time.deltaTime;
@@ -200,7 +200,7 @@ public class Player : MonoBehaviour
                 DrawShootingLine(prelimVel);
             }
 
-            if (Input.GetMouseButtonUp(0) && throwing && shootMode == 2) //mouse up, shoot
+            if (Input.GetMouseButtonUp(1) && throwing && shootMode == 2) //mouse up, shoot
             {
                 deleting = EraseShootingLine();
                 StartCoroutine(deleting);

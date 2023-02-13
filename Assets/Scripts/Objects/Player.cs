@@ -248,7 +248,16 @@ public class Player : MonoBehaviour
 
         //Debug.Log("drawing");
 
-        for (int i = 0; i < lineNumber; i++) {
+        for (int i = 0; i < 5; i++) {
+
+            Vector3 idealpos = CalculatePos(vel, timeToDraw * i / lineNumber);
+            Vector3 offset = transform.right.normalized * .5f + Vector3.down * .5f;
+            if (shootMode == 2) offset +=  Vector3.down * .5f;
+            float offsetAmt = 1f - .2f * i;
+            line.SetPosition(i, idealpos + offset * offsetAmt);
+        }
+
+        for (int i = 5; i < lineNumber; i++) {
             line.SetPosition(i, CalculatePos(vel, timeToDraw * i / lineNumber));
             //line.SetPosition(i, new Vector3(0, 0, i));
         }

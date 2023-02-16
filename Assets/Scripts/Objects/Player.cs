@@ -154,13 +154,18 @@ public class Player : MonoBehaviour
 
         Vector3 shootDirectionHoriz = Vector3.Scale(shootDirection, new Vector3(1f, 0f, 1f)).normalized;
         Vector3 shootDirectionRight = Vector3.Cross(shootDirectionHoriz, Vector3.up).normalized;
-
+        
         Vector3 finalDir = Quaternion.Euler(shootDirectionRight * 20) * shootDirection;
+
+        // Vector3 finalDir = shootDirection;
 
         currentBall = Instantiate(ballPrefab, ballPos.position, Quaternion.identity) as GameObject;
         ballRB = currentBall.GetComponent<Rigidbody>();
         ballRB.useGravity = true;
-        ballRB.velocity = rb.velocity;
+        // ballRB.velocity = new Vector3(rb.velocity.x/2, rb.velocity.y/4, rb.velocity.z/2);
+        Debug.Log(rb);
+        ballRB.velocity = 0.5f * Math.Clamp(Vector3.Dot(finalDir, rb.velocity), 0, 100) * finalDir;
+        ballRB.AddForce(rb.velocity, ForceMode.Impulse);
         ballRB.AddForce(finalDir * shotPowerMult, ForceMode.Impulse);
         Destroy(currentBall, ballDestroyTime);
     }

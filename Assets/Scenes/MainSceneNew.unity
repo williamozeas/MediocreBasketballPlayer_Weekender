@@ -1808,6 +1808,11 @@ PrefabInstance:
       propertyPath: handBall
       value: 
       objectReference: {fileID: 669319690}
+    - target: {fileID: 5059327039085678275, guid: ca0681a304fa54d49b73674d77e23848,
+        type: 3}
+      propertyPath: shotPowerMult
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 5059327039085678335, guid: ca0681a304fa54d49b73674d77e23848,
         type: 3}
       propertyPath: m_Name

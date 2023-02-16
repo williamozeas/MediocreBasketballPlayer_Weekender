@@ -124,5 +124,6 @@ public class EnemyManager : MonoBehaviour
     public void RemoveEnemy(Enemy enemy)
     {
         aliveEnemies.Remove(enemy);
+        GameManager.Instance.AddScore(1);
     }
 }

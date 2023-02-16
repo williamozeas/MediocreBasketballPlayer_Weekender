@@ -26,7 +26,7 @@ public class GameManager : Singleton<GameManager>
     private Player player;
     public Player Player => player;
     [HideInInspector] public EnemyManager enemyManager;
-    private int score; //idk if we want a score
+    private int score = 0; //number of enemies killed
     public int Score => score;
     private int round = 0;
     public int Round => round;
@@ -98,7 +98,6 @@ public class GameManager : Singleton<GameManager>
 
     public void AddScore(int addScore)
     {
-        //in case we want UI VFX or something
         score += addScore;
     }
 }

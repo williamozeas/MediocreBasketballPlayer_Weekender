@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     public bool IsThrowing => throwing;
     
     public LineRenderer line;
-    int lineNumber = 20;
+    int lineVertices = 21;
 
     IEnumerator deleting;
 
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         chargedVelocity = minChargedVelocity;
-        line.positionCount = lineNumber;
+        line.positionCount = lineVertices;
         health = maxHealth;
         //handBallPos = handBall.transform.localPosition;
         for (int i = 0; i < 20; i++) {
@@ -193,8 +193,8 @@ public class Player : MonoBehaviour
     {
         float timeToDraw = (vel.y + (float)Math.Sqrt(vel.y * vel.y + 4.0f * gravity)) / gravity;
 
-        for (int i = 0; i < lineNumber; i++) {
-            line.SetPosition(i, CalculatePos(vel, timeToDraw * (float)i / (float)lineNumber));
+        for (int i = 0; i < lineVertices; i++) {
+            line.SetPosition(i, CalculatePos(vel, timeToDraw * (float)i / (float)(lineVertices - 1)));
         }
        
     }

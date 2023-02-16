@@ -833,7 +833,7 @@ MonoBehaviour:
   cooldown: 0.2
   chargeRate: 1.5
   minChargedVelocity: 1
-  maxChargedVelocity: 12
+  maxChargedVelocity: 9
   chargedVelocity: 0
   percentCharge: 0
   ballPrefab: {fileID: 6918321547930112804, guid: ba7583b0309164ea6a6722ef355dd4b3,

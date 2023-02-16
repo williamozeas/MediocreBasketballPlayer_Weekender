@@ -82,6 +82,19 @@ public class Player : MonoBehaviour
     {
         GameManager.GameStart += OnGameStart;
         GameManager.GameOver += OnGameOver;
+        GameManager.GoToMenu += OnGoToMenu;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.GameStart -= OnGameStart;
+        GameManager.GameOver -= OnGameOver;
+    }
+
+    private void OnGoToMenu()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     
     private void OnGameStart()

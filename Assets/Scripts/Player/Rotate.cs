@@ -15,28 +15,7 @@ public class Rotate : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         rotQueue = new Queue<Quaternion>();
-    }
-
-    private void OnEnable()
-    {
-        GameManager.GameStart += OnGameStart;
-        GameManager.GameOver += OnGameOver;
-    }
-    
-    private void OnGameStart()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    private void OnGameOver()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     private void Update()

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hand Outline
-  m_Shader: {fileID: -6465566751694194690, guid: 7a8756ceeb1f94698bfe774e9a6037ca,
+  m_Shader: {fileID: -6465566751694194690, guid: 9627e146c9e844f88bbe08c38ad8a3f0,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -95,7 +95,7 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Outline_Thickness: 0.003
+    - _Outline_Thickness: 0.002
     - _Parallax: 0.005
     - _QueueControl: 1
     - _QueueOffset: -8

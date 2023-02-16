@@ -40,7 +40,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        SetGameState(GameState.Menu);
+        SetGameState(GameState.Playing);
     }
 
     // Update is called once per frame

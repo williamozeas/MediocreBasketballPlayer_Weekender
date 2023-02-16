@@ -42,10 +42,6 @@ public class PressHold : MonoBehaviour
 
         slider.normalizedValue = slider_StartingValue;
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("aaa");
-        }
         // {
         //     if (slider_BGFill == false) 
         //     {

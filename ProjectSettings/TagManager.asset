@@ -7,6 +7,8 @@ TagManager:
   - Base
   - Armored
   - Shielded
+  - CinemachineTarget
+  - Coliseum
   layers:
   - Default
   - TransparentFX
@@ -18,9 +20,8 @@ TagManager:
   - Enemies
   - Player
   - Shield
-  - 
-  - 
-  - 
+  - Background
+  - Ground
   - 
   - 
   - 

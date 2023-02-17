@@ -112,39 +112,47 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && canShoot && !shooting) {
-            if (CheckIfCanDunk())
+        if (GameManager.Instance.GameState == GameState.Playing)
+        {
+            if (Input.GetMouseButtonDown(0) && canShoot && !shooting)
             {
-                Dunk();
-                return;
+                if (CheckIfCanDunk())
+                {
+                    Dunk();
+                    return;
+                }
+
+                canShoot = false;
+                shooting = true;
             }
-            canShoot = false;
-            shooting = true;
-        }
-        if (Input.GetMouseButtonUp(0) && shooting) {
-            LeftClickShoot();
-            shooting = false;
-            StartCoroutine(CoolDown());
-        }
 
-        if (Input.GetMouseButtonDown(1) && canShoot && !shooting) {
-            canShoot = false;
-            shooting = true;
-            if (deleting != null) StopCoroutine(deleting);
-            line.startColor = new Color(1f, .5608f, .0118f, .8f);
-            line.endColor = new Color(1f, .2823f, 0f, .8f);
-        }
+            if (Input.GetMouseButtonUp(0) && shooting)
+            {
+                LeftClickShoot();
+                shooting = false;
+                StartCoroutine(CoolDown());
+            }
 
-        if (Input.GetMouseButton(1) && shooting)
-        {
-            RightHoldCharge();
-        }
+            if (Input.GetMouseButtonDown(1) && canShoot && !shooting)
+            {
+                canShoot = false;
+                shooting = true;
+                if (deleting != null) StopCoroutine(deleting);
+                line.startColor = new Color(1f, .5608f, .0118f, .8f);
+                line.endColor = new Color(1f, .2823f, 0f, .8f);
+            }
 
-        if (Input.GetMouseButtonUp(1) && shooting) //mouse up, shoot
-        {
-            RightHoldShoot();
-            shooting = false;
-            StartCoroutine(CoolDown());
+            if (Input.GetMouseButton(1) && shooting)
+            {
+                RightHoldCharge();
+            }
+
+            if (Input.GetMouseButtonUp(1) && shooting) //mouse up, shoot
+            {
+                RightHoldShoot();
+                shooting = false;
+                StartCoroutine(CoolDown());
+            }
         }
     }
 

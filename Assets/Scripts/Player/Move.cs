@@ -39,15 +39,21 @@ public class Move : MonoBehaviour
 
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, groundLayer);
+        if (GameManager.Instance.GameState == GameState.Playing)
+        {
+            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, groundLayer);
 
-        InputFunc();
-        MaxSpeed();
+            InputFunc();
+            MaxSpeed();
 
-        if (grounded) {
-            rb.drag = groundDrag;
-        } else {
-            rb.drag = 0;
+            if (grounded)
+            {
+                rb.drag = groundDrag;
+            }
+            else
+            {
+                rb.drag = 0;
+            }
         }
     }
 

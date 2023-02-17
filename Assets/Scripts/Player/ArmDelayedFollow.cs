@@ -25,7 +25,7 @@ public class ArmDelayedFollow : MonoBehaviour
 
 
         float angle = Quaternion.Angle(target, transform.rotation);
-        Debug.Log(angle);
+        // Debug.Log(angle);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, turnTime * Time.deltaTime * angle);
     }

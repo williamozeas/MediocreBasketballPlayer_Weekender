@@ -68,7 +68,12 @@ public class Enemy : MonoBehaviour
         
         //TODO: death animation, particle effects, etc.
         //Particle
-        GetComponent<MeshRenderer>().enabled = false;
+        var meshes = GetComponentsInChildren<MeshRenderer>();
+        foreach(var mesh in meshes)
+        {
+            mesh.enabled = false;
+        }
+        
         explosion.Play();
         yield return new WaitForSeconds(0.3f);
         

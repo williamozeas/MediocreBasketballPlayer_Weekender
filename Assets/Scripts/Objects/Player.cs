@@ -112,6 +112,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && canShoot && !shooting) {
+            if (CheckIfCanDunk())
+            {
+                Dunk();
+                return;
+            }
             canShoot = false;
             shooting = true;
         }
@@ -238,6 +243,16 @@ public class Player : MonoBehaviour
         {
             Die();
         }
+    }
+
+    private bool CheckIfCanDunk()
+    {
+        return false; //unimplemented
+    }
+
+    private void Dunk()
+    {
+        return; //unimplemented
     }
 
     public void Die()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-
+    public Enemy owner;
     private Vector3 restPos;
     private Quaternion restRot;
 
@@ -51,6 +51,9 @@ public class Shield : MonoBehaviour
             if (hitCount == maxHitCount) {
                 Destroy(gameObject);
             }
+        } else if (collision.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(owner.Attack());
         }
     }
 }

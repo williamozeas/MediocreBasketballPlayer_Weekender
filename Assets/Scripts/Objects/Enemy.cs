@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.AI;
+using UnityEngine.AI;
 
 [System.Serializable]
 public class EnemyStats
@@ -28,14 +31,20 @@ public class Enemy : MonoBehaviour
     private Coroutine movingCoroutine;
     ParticleSystem explosion;
     private Rigidbody rigidbody;
-    
+    private NavMeshAgent agent;
+
+    private void Awake()
+    {
+        explosion = GetComponent<ParticleSystem>();
+        rigidbody = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
+    }
+
     // Start is called on spawn
     void Start()
     {
         movingCoroutine = StartCoroutine(MoveTowardsPlayer());
         health = stats.health;
-        explosion = GetComponent<ParticleSystem>();
-        rigidbody = GetComponent<Rigidbody>();
     }
 
     protected virtual void TakeDamage(int damage)
@@ -48,7 +57,7 @@ public class Enemy : MonoBehaviour
     }
 
     //TODO: be called when enemy hits the player
-    protected virtual IEnumerator Attack()
+    public virtual IEnumerator Attack()
     {
         GameManager.Instance.Player.TakeDamage(stats.damage);
         StopCoroutine(movingCoroutine);
@@ -88,9 +97,11 @@ public class Enemy : MonoBehaviour
         }
         while (GameManager.Instance.GameState == GameState.Playing && health > 0)
         {
-            Vector3 playerPos = GameManager.Instance.Player.transform.position;
-            transform.LookAt(playerPos, Vector3.up);
-            rigidbody.velocity = transform.forward * stats.speed;
+            // Vector3 playerPos = GameManager.Instance.Player.transform.position;
+            // transform.LookAt(playerPos, Vector3.up);
+            // rigidbody.velocity = transform.forward * stats.speed;
+            // yield return null;
+            agent.SetDestination(GameManager.Instance.Player.transform.position);
             yield return null;
         }
     }
@@ -101,11 +112,9 @@ public class Enemy : MonoBehaviour
         //Hit a ball
         {
             TakeDamage(GameManager.Instance.Player.damage);
-        } else if (other.gameObject.CompareTag("MainCamera"))
+        } else if (other.gameObject.CompareTag("Player"))
         {
             StartCoroutine(Attack());
-            //TODO: sfx, etc?
-            Destroy(gameObject);
         }
     }
 }

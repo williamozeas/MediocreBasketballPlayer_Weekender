@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 5059327039085678274}
   - component: {fileID: 5059327039085678275}
   - component: {fileID: 5059327039085678276}
+  - component: {fileID: 8927521378480162998}
   m_Layer: 8
   m_Name: Player 1
   m_TagString: Untagged
@@ -322,3 +323,17 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!136 &8927521378480162998
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5059327039085678335}
+  m_Material: {fileID: 13400000, guid: 0b5da268e9bd34adc9ccc28b3b701103, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.53
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.1, z: 0}

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +23,10 @@ public class Player : MonoBehaviour
 
     public GameObject leftBallPrefab;
     public GameObject rightBallPrefab;
+    
+    //vignette stuff
+    private Vignette damageVignette;
+    private Coroutine damageAnim;
 
     int ballDestroyTime = 5;
 
@@ -61,6 +67,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.SetPlayer(this);
+        rb = GetComponent<Rigidbody>();
+        
     }
 
     // Start is called before the first frame update
@@ -74,9 +82,12 @@ public class Player : MonoBehaviour
             line.SetPosition(i, new Vector3(0f, -10f, -10f));
         }
         canShoot = true;
-        rb = GetComponent<Rigidbody>();
         rightLobAngleDeg = rightLobAngle * Mathf.PI / 180;
         rightLobAngleTan = MathF.Tan(rightLobAngleDeg);
+        if (!GameManager.Instance.Volume.profile.TryGet<Vignette>(out damageVignette))
+        {
+            Debug.LogWarning("No Vignette found!");
+        }
     }
 
     private void OnEnable()
@@ -90,12 +101,17 @@ public class Player : MonoBehaviour
     {
         GameManager.GameStart -= OnGameStart;
         GameManager.GameOver -= OnGameOver;
+        GameManager.GoToMenu -= OnGoToMenu;
     }
 
     private void OnGoToMenu()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        health = maxHealth;
+        transform.position = new Vector3(0, 1, 0);
+        transform.LookAt(new Vector3(0, 1, 1));
+        damageVignette.intensity.value = 0f;
     }
     
     private void OnGameStart()
@@ -108,6 +124,7 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        rb.velocity = Vector3.zero;
     }
 
     void Update()
@@ -247,6 +264,11 @@ public class Player : MonoBehaviour
         health -= damageTaken;
         
         //TODO: animation, sound, etc
+        if (damageAnim != null)
+        {
+            StopCoroutine(damageAnim);
+        }
+        damageAnim = StartCoroutine(DamageAnimation());
 
         if (health <= 0)
         {
@@ -273,6 +295,37 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(cooldown);
         canShoot = true;
+    }
+
+    IEnumerator DamageAnimation()
+    {
+        float hold = 0.6f;
+        float timeOut = 0.8f;
+        float maxIntensity = 0.55f;
+        float minIntensity = 0.3f;
+        float lowHealth = (float)maxHealth / 5;
+        float lowHealthIntensity = 0.25f;
+        
+        //start up
+        float end = ((float)(maxHealth - health) / maxHealth) * (maxIntensity - minIntensity) + minIntensity;
+        damageVignette.intensity.value = end;
+        
+        //hold
+        yield return new WaitForSeconds(hold);
+
+        //ease out
+        float normalIntensity = 0;
+        if (health < lowHealth)
+        {
+            normalIntensity = lowHealthIntensity;
+        }
+        Debug.Log(normalIntensity);
+        for (float timeElapsed = 0f; timeElapsed < timeOut; timeElapsed += Time.deltaTime)
+        {
+            damageVignette.intensity.value = EasingFunction.EaseInOutQuad(end, normalIntensity, timeElapsed);
+            yield return null;
+        }
+        damageVignette.intensity.value = normalIntensity;
     }
 }
 

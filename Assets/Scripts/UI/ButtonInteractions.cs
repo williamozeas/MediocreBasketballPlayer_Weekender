@@ -25,7 +25,9 @@ public class ButtonInteractions : MonoBehaviour
 
     public void OnGameOver()
     {
+        MainBackground.SetActive(true);
         EndingPage.SetActive(true);
+        PlayPage.SetActive(false);
     }
     
     private void OnGoToMenu()
@@ -74,6 +76,8 @@ public class ButtonInteractions : MonoBehaviour
     }
 
     public void clickExitFromEnd() {
+        GameManager.Instance.GameState = GameState.Menu;
+        
         LandingPage.gameObject.SetActive(true);
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(false);
@@ -82,6 +86,9 @@ public class ButtonInteractions : MonoBehaviour
     }
 
     public void clickPlayAgainFromEnd() {
+        GameManager.Instance.GameState = GameState.Menu;
+        GameManager.Instance.GameState = GameState.Playing;
+        
         LandingPage.gameObject.SetActive(false);
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(true);
@@ -92,11 +99,5 @@ public class ButtonInteractions : MonoBehaviour
     void Start()
     {
         MainBackground.gameObject.SetActive(true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

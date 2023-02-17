@@ -47,6 +47,21 @@ public class Enemy : MonoBehaviour
         health = stats.health;
     }
 
+    private void OnEnable()
+    {
+        GameManager.GameOver += OnGameOver;
+    }
+    private void OnDisable()
+    {
+        GameManager.GameOver -= OnGameOver;
+    }
+
+    private void OnGameOver()
+    {
+        StopCoroutine(movingCoroutine);
+        agent.isStopped = true;
+    }
+
     protected virtual void TakeDamage(int damage)
     {
         health -= damage;

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Debug = FMOD.Debug;
 
 public enum GameState
 {
@@ -26,7 +25,7 @@ public class GameManager : Singleton<GameManager>
     private Player player;
     public Player Player => player;
     [HideInInspector] public EnemyManager enemyManager;
-    private int score; //idk if we want a score
+    private int score = 0; //number of enemies killed
     public int Score => score;
     private int round = 0;
     public int Round => round;
@@ -52,6 +51,8 @@ public class GameManager : Singleton<GameManager>
         {
             GameState = GameState.Playing;
         }
+
+        Debug.Log(_gamestate);
 #endif
     }
 
@@ -98,7 +99,6 @@ public class GameManager : Singleton<GameManager>
 
     public void AddScore(int addScore)
     {
-        //in case we want UI VFX or something
         score += addScore;
     }
 }

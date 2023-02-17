@@ -7,21 +7,21 @@ TagManager:
   - Base
   - Armored
   - Shielded
+  - CinemachineTarget
+  - Coliseum
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Light
   - Water
   - UI
   - Basketballs
   - Enemies
   - Player
   - Shield
-  - 
-  - 
-  - 
-  - 
+  - Background
+  - Ground
   - 
   - 
   - 

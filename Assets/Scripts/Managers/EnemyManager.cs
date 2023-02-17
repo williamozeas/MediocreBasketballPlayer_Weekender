@@ -42,11 +42,15 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator EndRound()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(0.5f);
+        
+        //temp: end game
+        GameManager.Instance.GameState = GameState.GameEnd;
+
         //TODO:
         //add UI or FX?
         //give health back?
-        GameManager.Instance.StartNextWave();
+        // GameManager.Instance.StartNextWave();
     }
 
     void SpawnWave(Wave wave)
@@ -120,5 +124,6 @@ public class EnemyManager : MonoBehaviour
     public void RemoveEnemy(Enemy enemy)
     {
         aliveEnemies.Remove(enemy);
+        GameManager.Instance.AddScore(1);
     }
 }

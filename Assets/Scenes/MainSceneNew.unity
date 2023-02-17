@@ -195,7 +195,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &382188607
 PrefabInstance:
@@ -232,7 +232,7 @@ PrefabInstance:
     - target: {fileID: 143413736389642782, guid: e16628d7b7186435eaba0099772ec119,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.083
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 143413736389642782, guid: e16628d7b7186435eaba0099772ec119,
         type: 3}
@@ -274,6 +274,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 12.154
       objectReference: {fileID: 0}
+    - target: {fileID: 195208301221831294, guid: e16628d7b7186435eaba0099772ec119,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4719353095876954499, guid: e16628d7b7186435eaba0099772ec119,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -314,6 +319,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 482776643, guid: 09415b7c9658249fc9d195985e0f1890, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336010607713265564, guid: 09415b7c9658249fc9d195985e0f1890,
+        type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
@@ -440,6 +450,11 @@ PrefabInstance:
     - target: {fileID: 4792871399718435860, guid: 09415b7c9658249fc9d195985e0f1890,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5190638738866972906, guid: 09415b7c9658249fc9d195985e0f1890,
+        type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -610,8 +625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66fb649e2230c45caaf844bfbfad91a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSensitivity: 1000
-  ySensitivity: 1000
+  xSensitivity: 500
+  ySensitivity: 500
   orientation: {fileID: 228687484}
 --- !u!114 &718833480
 MonoBehaviour:
@@ -826,7 +841,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1283625084
 GameObject:
@@ -1194,7 +1209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotTarget: {fileID: 718833479}
-  rotDelay: 30
+  rotDelay: 2
 --- !u!1 &2017627341
 GameObject:
   m_ObjectHideFlags: 0

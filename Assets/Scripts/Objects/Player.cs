@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public float chargedVelocity = 0f;
     [HideInInspector] public float percentCharge = 0f;
 
-    public GameObject ballPrefab;
+    public GameObject leftBallPrefab;
+    public GameObject rightBallPrefab;
 
     int ballDestroyTime = 5;
 
@@ -69,8 +70,8 @@ public class Player : MonoBehaviour
         line.positionCount = lineVertices;
         health = maxHealth;
         //handBallPos = handBall.transform.localPosition;
-        for (int i = 0; i < 20; i++) {
-            line.SetPosition(i, new Vector3(0f, 0f, -10f));
+        for (int i = 0; i < lineVertices; i++) {
+            line.SetPosition(i, new Vector3(0f, -10f, -10f));
         }
         canShoot = true;
         rb = GetComponent<Rigidbody>();
@@ -164,13 +165,12 @@ public class Player : MonoBehaviour
 
         // Vector3 finalDir = shootDirection;
 
-        currentBall = Instantiate(ballPrefab, ballPos.position, Quaternion.identity) as GameObject;
+        currentBall = Instantiate(leftBallPrefab, ballPos.position, Quaternion.identity) as GameObject;
         ballRB = currentBall.GetComponent<Rigidbody>();
         ballRB.useGravity = true;
         // ballRB.velocity = new Vector3(rb.velocity.x/2, rb.velocity.y/4, rb.velocity.z/2);
         ballRB.velocity = 0.5f * Math.Clamp(Vector3.Dot(finalDir, rb.velocity), 0, 100) * finalDir;
         ballRB.velocity = new Vector3(ballRB.velocity.x, 0f, ballRB.velocity.z);
-        Debug.Log(ballRB.velocity);
         ballRB.AddForce(rb.velocity, ForceMode.Impulse);
         ballRB.AddForce(finalDir * shotPowerMult, ForceMode.Impulse);
         Destroy(currentBall, ballDestroyTime);
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
         deleting = EraseShootingLine();
         StartCoroutine(deleting);
 
-        currentBall = Instantiate(ballPrefab, ballPos.position, Quaternion.identity) as GameObject;
+        currentBall = Instantiate(rightBallPrefab, ballPos.position, Quaternion.identity) as GameObject;
         ballRB = currentBall.GetComponent<Rigidbody>();
         ballRB.useGravity = true;
         ballRB.velocity = finalDir;

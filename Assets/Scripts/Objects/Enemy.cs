@@ -111,7 +111,9 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Basketballs"))
         //Hit a ball
         {
-            TakeDamage(GameManager.Instance.Player.damage);
+            if (other.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 6f) {
+                TakeDamage(GameManager.Instance.Player.damage);
+            }
         } else if (other.gameObject.CompareTag("Player"))
         {
             StartCoroutine(Attack());

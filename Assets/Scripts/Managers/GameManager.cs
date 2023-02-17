@@ -51,8 +51,6 @@ public class GameManager : Singleton<GameManager>
         {
             GameState = GameState.Playing;
         }
-
-        Debug.Log(_gamestate);
 #endif
     }
 

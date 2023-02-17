@@ -173,7 +173,7 @@ public class Player : MonoBehaviour
         ballRB.velocity = new Vector3(ballRB.velocity.x, 0f, ballRB.velocity.z);
         ballRB.AddForce(rb.velocity, ForceMode.Impulse);
         ballRB.AddForce(finalDir * shotPowerMult, ForceMode.Impulse);
-        Destroy(currentBall, ballDestroyTime);
+        //Destroy(currentBall, ballDestroyTime);
     }
 
     private void RightHoldCharge()
@@ -200,7 +200,7 @@ public class Player : MonoBehaviour
         ballRB = currentBall.GetComponent<Rigidbody>();
         ballRB.useGravity = true;
         ballRB.velocity = finalDir;
-        Destroy(currentBall, ballDestroyTime);
+        //Destroy(currentBall, ballDestroyTime);
         chargedVelocity = minChargedVelocity;
     }
 

@@ -13,12 +13,15 @@ public class RightBall : MonoBehaviour
 
     public GameObject explosion;
 
+    int ballDestroyTime = 5;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         lifeTime = 0f;
         collided = false;
+        Destroy(gameObject, ballDestroyTime);
     }
 
     // Update is called once per frame

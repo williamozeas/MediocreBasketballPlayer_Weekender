@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
     }
 
     //TODO: be called when enemy hits the player
-    protected virtual IEnumerator Attack()
+    public virtual IEnumerator Attack()
     {
         GameManager.Instance.Player.TakeDamage(stats.damage);
         StopCoroutine(movingCoroutine);
@@ -112,11 +112,9 @@ public class Enemy : MonoBehaviour
         //Hit a ball
         {
             TakeDamage(GameManager.Instance.Player.damage);
-        } else if (other.gameObject.CompareTag("MainCamera"))
+        } else if (other.gameObject.CompareTag("Player"))
         {
             StartCoroutine(Attack());
-            //TODO: sfx, etc?
-            Destroy(gameObject);
         }
     }
 }

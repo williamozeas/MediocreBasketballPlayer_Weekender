@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-
+    public bool moveable = true;
     public float moveSpeed;
 
     public float groundDrag;
@@ -17,6 +17,7 @@ public class Move : MonoBehaviour
     public float playerHeight;
     public LayerMask groundLayer;
     bool grounded;
+    public bool Grounded => grounded;
 
     public float maxSlopeAngle;
     RaycastHit slopeHit;
@@ -41,7 +42,7 @@ public class Move : MonoBehaviour
     {
         
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, groundLayer);
-        if (GameManager.Instance.GameState == GameState.Playing)
+        if (GameManager.Instance.GameState == GameState.Playing && moveable)
         {
             InputFunc();
         }
@@ -64,7 +65,10 @@ public class Move : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (moveable)
+        {
+            MovePlayer();
+        }
     }
 
     private void InputFunc()

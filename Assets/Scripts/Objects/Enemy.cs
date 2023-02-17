@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
         agent.isStopped = true;
     }
 
-    protected virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
@@ -93,6 +93,11 @@ public class Enemy : MonoBehaviour
     protected virtual IEnumerator Die()
     {
         GameManager.Instance.enemyManager.RemoveEnemy(this);
+        var colliders = GetComponentsInChildren<Collider>();
+        foreach(var collider in colliders)
+        {
+            collider.enabled = false;
+        }
         StopCoroutine(movingCoroutine);
         yield return null;
         
@@ -137,7 +142,10 @@ public class Enemy : MonoBehaviour
             }
         } else if (other.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(Attack());
+            if (!GameManager.Instance.Player.invincible)
+            {
+                StartCoroutine(Attack());
+            }
         }
     }
 }

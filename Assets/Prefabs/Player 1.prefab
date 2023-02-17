@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea781fe1762e41eaa67e804d5b1ec19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveable: 1
   moveSpeed: 14
   groundDrag: 5
   jumpForce: 16
@@ -201,14 +202,18 @@ MonoBehaviour:
   maxHealth: 100
   health: 100
   damage: 5
+  invincible: 0
   cooldown: 0.2
   chargeRate: 1.5
   minChargedVelocity: 1
   maxChargedVelocity: 9
   chargedVelocity: 0
   percentCharge: 0
-  ballPrefab: {fileID: 6918321547930112804, guid: ba7583b0309164ea6a6722ef355dd4b3,
-    type: 3}
+  dunkingMinHeight: 1
+  dunkingMaxDistance: 10
+  dunkingVelocity: 100
+  leftBallPrefab: {fileID: 0}
+  rightBallPrefab: {fileID: 0}
   line: {fileID: 5059327039085678276}
   handBall: {fileID: 0}
   ballPos: {fileID: 0}

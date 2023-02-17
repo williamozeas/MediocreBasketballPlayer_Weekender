@@ -10,17 +10,25 @@ public class Player : MonoBehaviour
     public int maxHealth;
     [HideInInspector] public int health;
     public int damage;
+    [HideInInspector] public bool invincible = false;
 
     public float cooldown;
     bool canShoot;
     bool shooting;
-
+    
+    [Header("Charging Variables")]
     public float chargeRate;
     public float minChargedVelocity;
     public float maxChargedVelocity;
     [HideInInspector] public float chargedVelocity = 0f;
     [HideInInspector] public float percentCharge = 0f;
 
+    [Header("Dunking Variables")] 
+    public float dunkingMinHeight = 1f;
+    public float dunkingMaxDistance = 3f;
+    public float dunkingVelocity = 3f;
+    
+    [Header("References")]
     public GameObject leftBallPrefab;
     public GameObject rightBallPrefab;
     
@@ -56,6 +64,7 @@ public class Player : MonoBehaviour
     public Transform camTrans;
 
     Rigidbody rb;
+    private Move move;
 
     float gravity = 20f;
 
@@ -68,7 +77,7 @@ public class Player : MonoBehaviour
     {
         GameManager.Instance.SetPlayer(this);
         rb = GetComponent<Rigidbody>();
-        
+        move = GetComponent<Move>();
     }
 
     // Start is called before the first frame update
@@ -118,6 +127,7 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        invincible = false;
     }
 
     private void OnGameOver()
@@ -125,6 +135,7 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         rb.velocity = Vector3.zero;
+        invincible = true;
     }
 
     void Update()
@@ -133,14 +144,17 @@ public class Player : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && canShoot && !shooting)
             {
-                if (CheckIfCanDunk())
+                Enemy theDunkedOne = CheckIfCanDunk();
+                if (theDunkedOne != null)
                 {
-                    Dunk();
+                    StartCoroutine(Dunk(theDunkedOne));
                     return;
                 }
-
-                canShoot = false;
-                shooting = true;
+                else
+                {
+                    canShoot = false;
+                    shooting = true;
+                }
             }
 
             if (Input.GetMouseButtonUp(0) && shooting)
@@ -276,14 +290,101 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool CheckIfCanDunk()
+    private Enemy CheckIfCanDunk()
     {
-        return false; //unimplemented
+        if (move.Grounded)
+        {
+            return null;
+        }
+        LayerMask layerMask = LayerMask.GetMask("Enemies", "Ground", "Default");
+        RaycastHit hit;
+        if (Physics.Raycast(camTrans.position, camTrans.TransformDirection(Vector3.forward), out hit, dunkingMaxDistance, layerMask))
+        {
+            
+            //TODO: CHECK ANGLE
+            
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+            {
+                Debug.Log("hit!");
+                return hit.transform.GetComponent<Enemy>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        return null; 
     }
 
-    private void Dunk()
+    private IEnumerator Dunk(Enemy enemy)
     {
-        return; //unimplemented
+        float slowTime = 0.3f;
+        float windUpTime = 0.3f;
+        float enemyDistance = 0.15f;
+        
+        //disable colliders etc
+        // var colliders = GetComponentsInChildren<Collider>();
+        // foreach (Collider collider in colliders)
+        // {
+        //     collider.enabled = false;
+        // }
+        invincible = true;
+        move.moveable = false;
+        rb.useGravity = false;
+        canShoot = false;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Shield"));
+        
+        //slow to a stop
+        // Vector3 velocity = rb.velocity;
+        // for (float timeElapsed = 0f; timeElapsed < slowTime; timeElapsed += Time.deltaTime)
+        // {
+        //     rb.velocity = velocity * EasingFunction.EaseOutQuart(1, 0, timeElapsed);
+        //     yield return null;
+        // }
+        // rb.velocity = Vector3.zero;
+
+        //Dunk!
+        float drag = rb.drag;
+        rb.drag = 0;
+        Vector3 velocity = rb.velocity;
+        for (float timeElapsed = 0f; timeElapsed < windUpTime; timeElapsed += Time.deltaTime)
+        {
+            //slowing to stop
+            rb.velocity = velocity * EasingFunction.EaseOutQuart(1, 0, timeElapsed/slowTime);
+            
+            //winding up
+            Vector3 directionVector = (enemy.transform.position - transform.position).normalized;
+            rb.velocity += directionVector * EasingFunction.EaseInBack(0, dunkingVelocity, timeElapsed/windUpTime);
+            // rb.velocity = directionVector * 100;
+            if ((enemy.transform.position - transform.position).magnitude < enemyDistance)
+            {
+                break;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+        
+        //wait for contact
+        while ((enemy.transform.position - transform.position).magnitude < enemyDistance)
+        {
+            rb.velocity = (enemy.transform.position - transform.position).normalized * dunkingVelocity;
+            yield return null;
+        }
+        
+        //On Contact
+        enemy.TakeDamage(enemy.health);
+        rb.drag = drag;
+        yield return null;
+        
+        //reset
+        // foreach (Collider collider in colliders)
+        // {
+        //     collider.enabled = true;
+        // }
+        invincible = false;
+        move.moveable = true;
+        rb.useGravity = true;
+        canShoot = true;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Shield"), false);
     }
 
     public void Die()

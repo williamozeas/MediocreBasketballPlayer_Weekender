@@ -13,6 +13,8 @@ public class RightBall : MonoBehaviour
 
     public GameObject explosion;
 
+    public float expTime = 0.1f;
+
     int ballDestroyTime = 5;
 
     // Start is called before the first frame update
@@ -34,7 +36,12 @@ public class RightBall : MonoBehaviour
     {
         if (!collided) {
             collided = true;
-            Instantiate(explosion, transform.position, Quaternion.identity);
+            GameObject exp = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
+            ParticleSystem p =  exp.GetComponent<ParticleSystem>();
+            var main = p.main;
+            main.startSpeed = lifeTime * 3f / expTime;
+            main.startLifetime = expTime;
+            p.Play();
             Destroy(gameObject, .05f);
             ExplosionDamage(transform.position, lifeTime * 3f);
         }

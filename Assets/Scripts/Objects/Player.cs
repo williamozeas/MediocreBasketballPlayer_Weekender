@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public float chargedVelocity = 0f;
     [HideInInspector] public float percentCharge = 0f;
 
-    public GameObject ballPrefab;
+    public GameObject leftBallPrefab;
+    public GameObject rightBallPrefab;
 
     int ballDestroyTime = 5;
 
@@ -69,8 +70,8 @@ public class Player : MonoBehaviour
         line.positionCount = lineVertices;
         health = maxHealth;
         //handBallPos = handBall.transform.localPosition;
-        for (int i = 0; i < 20; i++) {
-            line.SetPosition(i, new Vector3(0f, 0f, -10f));
+        for (int i = 0; i < lineVertices; i++) {
+            line.SetPosition(i, new Vector3(0f, -10f, -10f));
         }
         canShoot = true;
         rb = GetComponent<Rigidbody>();
@@ -82,6 +83,19 @@ public class Player : MonoBehaviour
     {
         GameManager.GameStart += OnGameStart;
         GameManager.GameOver += OnGameOver;
+        GameManager.GoToMenu += OnGoToMenu;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.GameStart -= OnGameStart;
+        GameManager.GameOver -= OnGameOver;
+    }
+
+    private void OnGoToMenu()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     
     private void OnGameStart()
@@ -98,34 +112,47 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && canShoot && !shooting) {
-            canShoot = false;
-            shooting = true;
-        }
-        if (Input.GetMouseButtonUp(0) && shooting) {
-            LeftClickShoot();
-            shooting = false;
-            StartCoroutine(CoolDown());
-        }
-
-        if (Input.GetMouseButtonDown(1) && canShoot && !shooting) {
-            canShoot = false;
-            shooting = true;
-            if (deleting != null) StopCoroutine(deleting);
-            line.startColor = new Color(1f, .5608f, .0118f, .8f);
-            line.endColor = new Color(1f, .2823f, 0f, .8f);
-        }
-
-        if (Input.GetMouseButton(1) && shooting)
+        if (GameManager.Instance.GameState == GameState.Playing)
         {
-            RightHoldCharge();
-        }
+            if (Input.GetMouseButtonDown(0) && canShoot && !shooting)
+            {
+                if (CheckIfCanDunk())
+                {
+                    Dunk();
+                    return;
+                }
 
-        if (Input.GetMouseButtonUp(1) && shooting) //mouse up, shoot
-        {
-            RightHoldShoot();
-            shooting = false;
-            StartCoroutine(CoolDown());
+                canShoot = false;
+                shooting = true;
+            }
+
+            if (Input.GetMouseButtonUp(0) && shooting)
+            {
+                LeftClickShoot();
+                shooting = false;
+                StartCoroutine(CoolDown());
+            }
+
+            if (Input.GetMouseButtonDown(1) && canShoot && !shooting)
+            {
+                canShoot = false;
+                shooting = true;
+                if (deleting != null) StopCoroutine(deleting);
+                line.startColor = new Color(1f, .5608f, .0118f, .8f);
+                line.endColor = new Color(1f, .2823f, 0f, .8f);
+            }
+
+            if (Input.GetMouseButton(1) && shooting)
+            {
+                RightHoldCharge();
+            }
+
+            if (Input.GetMouseButtonUp(1) && shooting) //mouse up, shoot
+            {
+                RightHoldShoot();
+                shooting = false;
+                StartCoroutine(CoolDown());
+            }
         }
     }
 
@@ -141,15 +168,20 @@ public class Player : MonoBehaviour
 
         Vector3 shootDirectionHoriz = Vector3.Scale(shootDirection, new Vector3(1f, 0f, 1f)).normalized;
         Vector3 shootDirectionRight = Vector3.Cross(shootDirectionHoriz, Vector3.up).normalized;
-
+        
         Vector3 finalDir = Quaternion.Euler(shootDirectionRight * 20) * shootDirection;
 
-        currentBall = Instantiate(ballPrefab, ballPos.position, Quaternion.identity) as GameObject;
+        // Vector3 finalDir = shootDirection;
+
+        currentBall = Instantiate(leftBallPrefab, ballPos.position, Quaternion.identity) as GameObject;
         ballRB = currentBall.GetComponent<Rigidbody>();
         ballRB.useGravity = true;
-        ballRB.velocity = rb.velocity;
+        // ballRB.velocity = new Vector3(rb.velocity.x/2, rb.velocity.y/4, rb.velocity.z/2);
+        ballRB.velocity = 0.5f * Math.Clamp(Vector3.Dot(finalDir, rb.velocity), 0, 100) * finalDir;
+        ballRB.velocity = new Vector3(ballRB.velocity.x, 0f, ballRB.velocity.z);
+        ballRB.AddForce(rb.velocity, ForceMode.Impulse);
         ballRB.AddForce(finalDir * shotPowerMult, ForceMode.Impulse);
-        Destroy(currentBall, ballDestroyTime);
+        //Destroy(currentBall, ballDestroyTime);
     }
 
     private void RightHoldCharge()
@@ -172,11 +204,11 @@ public class Player : MonoBehaviour
         deleting = EraseShootingLine();
         StartCoroutine(deleting);
 
-        currentBall = Instantiate(ballPrefab, ballPos.position, Quaternion.identity) as GameObject;
+        currentBall = Instantiate(rightBallPrefab, ballPos.position, Quaternion.identity) as GameObject;
         ballRB = currentBall.GetComponent<Rigidbody>();
         ballRB.useGravity = true;
         ballRB.velocity = finalDir;
-        Destroy(currentBall, ballDestroyTime);
+        //Destroy(currentBall, ballDestroyTime);
         chargedVelocity = minChargedVelocity;
     }
 
@@ -220,6 +252,16 @@ public class Player : MonoBehaviour
         {
             Die();
         }
+    }
+
+    private bool CheckIfCanDunk()
+    {
+        return false; //unimplemented
+    }
+
+    private void Dunk()
+    {
+        return; //unimplemented
     }
 
     public void Die()

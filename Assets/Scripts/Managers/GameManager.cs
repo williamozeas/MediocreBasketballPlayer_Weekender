@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Debug = FMOD.Debug;
 
 public enum GameState
 {
@@ -40,7 +39,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        SetGameState(GameState.Playing);
+        SetGameState(GameState.Menu);
     }
 
     // Update is called once per frame

@@ -28,6 +28,8 @@ public class Enemy : MonoBehaviour
     [Header("Current Stats")]
     public int health = 5;
 
+    private bool attacking = false;
+
     private Coroutine movingCoroutine;
     ParticleSystem explosion;
     private Rigidbody rigidbody;
@@ -74,14 +76,18 @@ public class Enemy : MonoBehaviour
     //TODO: be called when enemy hits the player
     public virtual IEnumerator Attack()
     {
-        GameManager.Instance.Player.TakeDamage(stats.damage);
-        StopCoroutine(movingCoroutine);
-        yield return null;
-        
-        //TODO: death/attack animation, particle effects, etc.
-        
-        GameManager.Instance.enemyManager.RemoveEnemy(this);
-        Destroy(gameObject);
+        if (!attacking)
+        {
+            attacking = true;
+            GameManager.Instance.Player.TakeDamage(stats.damage);
+            GameManager.Instance.enemyManager.RemoveEnemy(this);
+            StopCoroutine(movingCoroutine);
+            yield return null;
+
+            //TODO: death/attack animation, particle effects, etc.
+
+            Destroy(gameObject);
+        }
     }
 
     protected virtual IEnumerator Die()

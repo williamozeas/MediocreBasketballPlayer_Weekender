@@ -209,9 +209,13 @@ MonoBehaviour:
   maxChargedVelocity: 9
   chargedVelocity: 0
   percentCharge: 0
-  dunkingMinHeight: 1
-  dunkingMaxDistance: 10
+  dunkingMinHeight: 5
+  dunkingMaxAngle: 50
+  dunkingMaxDistance: 15
   dunkingVelocity: 100
+  dunkingInvincibilityTime: 0.4
+  dunkingExplosionPower: 50
+  dunkingExplosionRadius: 7
   leftBallPrefab: {fileID: 0}
   rightBallPrefab: {fileID: 0}
   line: {fileID: 5059327039085678276}

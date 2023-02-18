@@ -30,6 +30,12 @@ public class Move : MonoBehaviour
     Vector3 moveDir;
 
     Rigidbody rb;
+    
+#if UNITY_EDITOR
+    private bool counting = false;
+    private int frameCount = 0;
+    private float timeTotal = 0;
+#endif
 
     private void Start()
     {
@@ -61,6 +67,22 @@ public class Move : MonoBehaviour
         {
             rb.drag = 0;
         }
+        
+#if UNITY_EDITOR
+        //FPS counting
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            counting = !counting;
+            Debug.Log("Avg. Framerate: " + frameCount / timeTotal);
+            timeTotal = 0;
+            frameCount = 0;
+        }
+        if (counting)
+        {
+            timeTotal += Time.deltaTime;
+            frameCount++;
+        }
+#endif
     }
 
     private void FixedUpdate()

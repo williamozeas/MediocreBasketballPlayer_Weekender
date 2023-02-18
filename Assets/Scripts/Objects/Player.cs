@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
@@ -25,8 +26,12 @@ public class Player : MonoBehaviour
 
     [Header("Dunking Variables")] 
     public float dunkingMinHeight = 1f;
+    public float dunkingMaxAngle = 50f; //degrees
     public float dunkingMaxDistance = 3f;
     public float dunkingVelocity = 3f;
+    public float dunkingInvincibilityTime = 0.4f;
+    public float dunkingExplosionPower = 500f;
+    public float dunkingExplosionRadius = 2f;
     
     [Header("References")]
     public GameObject leftBallPrefab;
@@ -298,14 +303,18 @@ public class Player : MonoBehaviour
         }
         LayerMask layerMask = LayerMask.GetMask("Enemies", "Ground", "Default");
         RaycastHit hit;
+        
+        //angle check
+        float angleToUp = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(Vector3.up, -camTrans.TransformDirection(Vector3.forward)));
+        if (angleToUp > dunkingMaxAngle)
+        {
+            return null;
+        }
+        
         if (Physics.Raycast(camTrans.position, camTrans.TransformDirection(Vector3.forward), out hit, dunkingMaxDistance, layerMask))
         {
-            
-            //TODO: CHECK ANGLE
-            
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemies") && hit.distance > dunkingMinHeight)
             {
-                Debug.Log("hit!");
                 return hit.transform.GetComponent<Enemy>();
             }
             else
@@ -333,15 +342,6 @@ public class Player : MonoBehaviour
         rb.useGravity = false;
         canShoot = false;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Shield"));
-        
-        //slow to a stop
-        // Vector3 velocity = rb.velocity;
-        // for (float timeElapsed = 0f; timeElapsed < slowTime; timeElapsed += Time.deltaTime)
-        // {
-        //     rb.velocity = velocity * EasingFunction.EaseOutQuart(1, 0, timeElapsed);
-        //     yield return null;
-        // }
-        // rb.velocity = Vector3.zero;
 
         //Dunk!
         float drag = rb.drag;
@@ -373,18 +373,43 @@ public class Player : MonoBehaviour
         //On Contact
         enemy.TakeDamage(enemy.health);
         rb.drag = drag;
+        
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position - new Vector3(0, 0.4f, 0), dunkingExplosionRadius);
+        foreach (var hitCollider in hitColliders)
+        {
+            Rigidbody rb = hitCollider.GetComponent<Rigidbody>();
+            if (rb != null && hitCollider.gameObject.layer != LayerMask.NameToLayer("Player"))
+            {
+                rb.isKinematic = false;
+                rb.AddExplosionForce(dunkingExplosionPower, transform.position, dunkingExplosionRadius, 3.0f,
+                    ForceMode.Impulse);
+            }
+        }
         yield return null;
         
         //reset
-        // foreach (Collider collider in colliders)
-        // {
-        //     collider.enabled = true;
-        // }
-        invincible = false;
         move.moveable = true;
         rb.useGravity = true;
         canShoot = true;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Shield"), false);
+
+        yield return new WaitForSeconds(dunkingInvincibilityTime);
+        invincible = false;
+        
+        yield return new WaitForSeconds(0.8f);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider)
+            {
+                Rigidbody rb = hitCollider.GetComponent<Rigidbody>();
+                if (rb != null && hitCollider.gameObject.layer != LayerMask.NameToLayer("Player"))
+                {
+                    rb.isKinematic = true;
+                    rb.AddExplosionForce(dunkingExplosionPower, transform.position, dunkingExplosionRadius, 3.0f,
+                        ForceMode.Impulse);
+                }
+            }
+        }
     }
 
     public void Die()
@@ -428,6 +453,7 @@ public class Player : MonoBehaviour
         }
         damageVignette.intensity.value = normalIntensity;
     }
+    
 }
 
 

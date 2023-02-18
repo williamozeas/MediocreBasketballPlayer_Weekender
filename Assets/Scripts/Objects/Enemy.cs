@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEditor.AI;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class EnemyStats
@@ -35,6 +37,9 @@ public class Enemy : MonoBehaviour
     private Rigidbody rigidbody;
     private NavMeshAgent agent;
 
+    private FMOD.Studio.EventInstance growl;
+    private Coroutine audioCoroutine;
+
     private void Awake()
     {
         explosion = GetComponent<ParticleSystem>();
@@ -45,8 +50,10 @@ public class Enemy : MonoBehaviour
     // Start is called on spawn
     void Start()
     {
-        movingCoroutine = StartCoroutine(MoveTowardsPlayer());
+        audioCoroutine = StartCoroutine(GrowlCoroutine());
+        
         health = stats.health;
+        movingCoroutine = StartCoroutine(MoveTowardsPlayer());
     }
 
     private void OnEnable()
@@ -78,6 +85,10 @@ public class Enemy : MonoBehaviour
     {
         if (!attacking)
         {
+            //SFX
+            growl.stop(STOP_MODE.ALLOWFADEOUT);
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Attack", gameObject);
+            
             attacking = true;
             GameManager.Instance.Player.TakeDamage(stats.damage);
             GameManager.Instance.enemyManager.RemoveEnemy(this);
@@ -92,6 +103,10 @@ public class Enemy : MonoBehaviour
 
     protected virtual IEnumerator Die()
     {
+        //SFX
+        StopCoroutine(audioCoroutine);
+        growl.stop(STOP_MODE.ALLOWFADEOUT);
+        
         GameManager.Instance.enemyManager.RemoveEnemy(this);
         var colliders = GetComponentsInChildren<Collider>();
         foreach(var collider in colliders)
@@ -128,6 +143,7 @@ public class Enemy : MonoBehaviour
             // rigidbody.velocity = transform.forward * stats.speed;
             // yield return null;
             agent.SetDestination(GameManager.Instance.Player.transform.position);
+            
             yield return null;
         }
     }
@@ -146,6 +162,24 @@ public class Enemy : MonoBehaviour
             {
                 StartCoroutine(Attack());
             }
+        }
+    }
+
+    IEnumerator GrowlCoroutine()
+    {
+        while (true)
+        {
+            if (Random.Range(0f, 1f) > 0.8)
+            {
+                
+                growl = FMODUnity.RuntimeManager.CreateInstance("event:/SFX/Enemies/Growl");
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(growl, transform);
+                growl.start();
+                growl.release();
+                Debug.Log("Playing!");
+                yield return new WaitForSeconds(1f);
+            }
+            yield return new WaitForSeconds(0.8f + Random.Range(0, 1));
         }
     }
 }

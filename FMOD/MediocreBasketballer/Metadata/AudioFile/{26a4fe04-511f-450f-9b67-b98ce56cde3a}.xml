@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{26a4fe04-511f-450f-9b67-b98ce56cde3a}">
+		<property name="assetPath">
+			<value>VO_3_pointer.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.4375</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c0aead3f-74bb-43c8-bbef-a4881d9d6186}</destination>
+		</relationship>
+	</object>
+</objects>

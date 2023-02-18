@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{d81c4874-28f8-46a4-8e72-699ef8686888}">
+		<property name="assetPath">
+			<value>Enemy_growl_3.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>2</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c0aead3f-74bb-43c8-bbef-a4881d9d6186}</destination>
+		</relationship>
+	</object>
+</objects>

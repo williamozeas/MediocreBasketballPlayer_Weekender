@@ -149,7 +149,9 @@ public class Move : MonoBehaviour
 
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse); 
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Player/Jump");
     }
 
     private void ResetJump()

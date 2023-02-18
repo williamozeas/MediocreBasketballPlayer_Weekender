@@ -12,32 +12,41 @@ public class EnemyManager : MonoBehaviour
     public GameObject shieldEnemyPrefab;
 
     private List<Enemy> aliveEnemies = new List<Enemy>();
+
+    private Coroutine spawningCoroutine;
+    private int currentWaveTotal;
+    public int CurrentWaveTotal => currentWaveTotal;
     
     private void Awake()
     {
         GameManager.Instance.enemyManager = this;
     }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnEnable()
     {
         GameManager.WaveStart += SpawnWave;
+        GameManager.GameOver += OnGameOver;
+        GameManager.GoToMenu += OnGoToMenu;
     }
-    
+
     private void OnDisable()
     {
         GameManager.WaveStart -= SpawnWave;
+        GameManager.GameOver -= OnGameOver;
+        GameManager.GoToMenu -= OnGoToMenu;
+    }
+    
+    private void OnGameOver()
+    {
+        StopCoroutine(spawningCoroutine);
+    }
+    private void OnGoToMenu()
+    {
+        for (int i = aliveEnemies.Count - 1; i >= 0; i--)
+        {
+            Destroy(aliveEnemies[i].gameObject);
+        }
+        aliveEnemies.Clear();
     }
 
     IEnumerator EndRound()
@@ -49,13 +58,14 @@ public class EnemyManager : MonoBehaviour
 
         //TODO:
         //add UI or FX?
-        //give health back?
-        // GameManager.Instance.StartNextWave();
+        GameManager.Instance.Player.health = GameManager.Instance.Player.maxHealth;
+        GameManager.Instance.StartNextWave();
     }
 
     void SpawnWave(Wave wave)
     {
-        StartCoroutine(SpawnWaveCoroutine(wave));
+        spawningCoroutine = StartCoroutine(SpawnWaveCoroutine(wave));
+        currentWaveTotal = wave.GetEnemyTotal();
     }
     
     //Loop through enemy sets that spawn together 
@@ -126,4 +136,9 @@ public class EnemyManager : MonoBehaviour
         aliveEnemies.Remove(enemy);
         GameManager.Instance.AddScore(1);
     }
+
+    // public void GetSpawnCount(List<Transform> enemies)
+    // {
+    //     GameManager.Instance.SpawnCount = spawnPoints.Count;
+    // }
 }

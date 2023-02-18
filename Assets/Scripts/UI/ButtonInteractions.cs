@@ -6,6 +6,7 @@ using UnityEngine;
 public class ButtonInteractions : MonoBehaviour
 {
     public GameObject MainBackground;
+    public GameObject MainBackgroundLight;
     public GameObject LandingPage;
     public GameObject HowToPlayPage;
     public GameObject PlayPage;
@@ -25,7 +26,10 @@ public class ButtonInteractions : MonoBehaviour
 
     public void OnGameOver()
     {
+        MainBackground.SetActive(false);
+        MainBackgroundLight.SetActive(true);
         EndingPage.SetActive(true);
+        PlayPage.SetActive(false);
     }
     
     private void OnGoToMenu()
@@ -35,6 +39,7 @@ public class ButtonInteractions : MonoBehaviour
         PlayPage.gameObject.SetActive(false);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(true);
+        MainBackgroundLight.SetActive(false);
     }
 
     public void clickStartFromMain() {
@@ -43,6 +48,7 @@ public class ButtonInteractions : MonoBehaviour
         PlayPage.gameObject.SetActive(true);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(false);
+        MainBackgroundLight.SetActive(false);
 
         GameManager.Instance.GameState = GameState.Playing;
     }
@@ -53,6 +59,7 @@ public class ButtonInteractions : MonoBehaviour
         PlayPage.gameObject.SetActive(false);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(true);
+        MainBackgroundLight.SetActive(false);
     }
 
     public void clickStartFromHowToPlay() {
@@ -61,6 +68,7 @@ public class ButtonInteractions : MonoBehaviour
         PlayPage.gameObject.SetActive(true);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(false);
+        MainBackgroundLight.SetActive(false);
 
         GameManager.Instance.GameState = GameState.Playing;
     }
@@ -71,32 +79,34 @@ public class ButtonInteractions : MonoBehaviour
         PlayPage.gameObject.SetActive(false);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(true);
+        MainBackgroundLight.SetActive(false);
     }
 
     public void clickExitFromEnd() {
+        GameManager.Instance.GameState = GameState.Menu;
+        
         LandingPage.gameObject.SetActive(true);
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(false);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(true);
+        MainBackgroundLight.SetActive(false);
     }
 
     public void clickPlayAgainFromEnd() {
+        GameManager.Instance.GameState = GameState.Menu;
+        GameManager.Instance.GameState = GameState.Playing;
+        
         LandingPage.gameObject.SetActive(false);
         HowToPlayPage.gameObject.SetActive(false);
         PlayPage.gameObject.SetActive(true);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(false);
+        MainBackgroundLight.SetActive(false);
     }
 
     void Start()
     {
         MainBackground.gameObject.SetActive(true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

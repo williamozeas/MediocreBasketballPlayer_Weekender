@@ -2,25 +2,44 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
     public int maxHealth;
     [HideInInspector] public int health;
     public int damage;
+    [HideInInspector] public bool invincible = false;
 
     public float cooldown;
     bool canShoot;
     bool shooting;
-
+    
+    [Header("Charging Variables")]
     public float chargeRate;
     public float minChargedVelocity;
     public float maxChargedVelocity;
     [HideInInspector] public float chargedVelocity = 0f;
     [HideInInspector] public float percentCharge = 0f;
 
+    [Header("Dunking Variables")] 
+    public float dunkingMinHeight = 1f;
+    public float dunkingMaxAngle = 50f; //degrees
+    public float dunkingMaxDistance = 3f;
+    public float dunkingVelocity = 3f;
+    public float dunkingInvincibilityTime = 0.4f;
+    public float dunkingExplosionPower = 500f;
+    public float dunkingExplosionRadius = 2f;
+    
+    [Header("References")]
     public GameObject leftBallPrefab;
     public GameObject rightBallPrefab;
+    
+    //vignette stuff
+    private Vignette damageVignette;
+    private Coroutine damageAnim;
 
     int ballDestroyTime = 5;
 
@@ -50,6 +69,7 @@ public class Player : MonoBehaviour
     public Transform camTrans;
 
     Rigidbody rb;
+    private Move move;
 
     float gravity = 20f;
 
@@ -61,6 +81,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.SetPlayer(this);
+        rb = GetComponent<Rigidbody>();
+        move = GetComponent<Move>();
     }
 
     // Start is called before the first frame update
@@ -74,9 +96,12 @@ public class Player : MonoBehaviour
             line.SetPosition(i, new Vector3(0f, -10f, -10f));
         }
         canShoot = true;
-        rb = GetComponent<Rigidbody>();
         rightLobAngleDeg = rightLobAngle * Mathf.PI / 180;
         rightLobAngleTan = MathF.Tan(rightLobAngleDeg);
+        if (!GameManager.Instance.Volume.profile.TryGet<Vignette>(out damageVignette))
+        {
+            Debug.LogWarning("No Vignette found!");
+        }
     }
 
     private void OnEnable()
@@ -90,24 +115,32 @@ public class Player : MonoBehaviour
     {
         GameManager.GameStart -= OnGameStart;
         GameManager.GameOver -= OnGameOver;
+        GameManager.GoToMenu -= OnGoToMenu;
     }
 
     private void OnGoToMenu()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        health = maxHealth;
+        transform.position = new Vector3(0, 1, 0);
+        transform.LookAt(new Vector3(0, 1, 1));
+        damageVignette.intensity.value = 0f;
     }
     
     private void OnGameStart()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        invincible = false;
     }
 
     private void OnGameOver()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        rb.velocity = Vector3.zero;
+        invincible = true;
     }
 
     void Update()
@@ -116,14 +149,17 @@ public class Player : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && canShoot && !shooting)
             {
-                if (CheckIfCanDunk())
+                Enemy theDunkedOne = CheckIfCanDunk();
+                if (theDunkedOne != null)
                 {
-                    Dunk();
+                    StartCoroutine(Dunk(theDunkedOne));
                     return;
                 }
-
-                canShoot = false;
-                shooting = true;
+                else
+                {
+                    canShoot = false;
+                    shooting = true;
+                }
             }
 
             if (Input.GetMouseButtonUp(0) && shooting)
@@ -247,6 +283,11 @@ public class Player : MonoBehaviour
         health -= damageTaken;
         
         //TODO: animation, sound, etc
+        if (damageAnim != null)
+        {
+            StopCoroutine(damageAnim);
+        }
+        damageAnim = StartCoroutine(DamageAnimation());
 
         if (health <= 0)
         {
@@ -254,14 +295,121 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool CheckIfCanDunk()
+    private Enemy CheckIfCanDunk()
     {
-        return false; //unimplemented
+        if (move.Grounded)
+        {
+            return null;
+        }
+        LayerMask layerMask = LayerMask.GetMask("Enemies", "Ground", "Default");
+        RaycastHit hit;
+        
+        //angle check
+        float angleToUp = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(Vector3.up, -camTrans.TransformDirection(Vector3.forward)));
+        if (angleToUp > dunkingMaxAngle)
+        {
+            return null;
+        }
+        
+        if (Physics.Raycast(camTrans.position, camTrans.TransformDirection(Vector3.forward), out hit, dunkingMaxDistance, layerMask))
+        {
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemies") && hit.distance > dunkingMinHeight)
+            {
+                return hit.transform.GetComponent<Enemy>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        return null; 
     }
 
-    private void Dunk()
+    private IEnumerator Dunk(Enemy enemy)
     {
-        return; //unimplemented
+        float slowTime = 0.3f;
+        float windUpTime = 0.3f;
+        float enemyDistance = 0.15f;
+        
+        //disable colliders etc
+        // var colliders = GetComponentsInChildren<Collider>();
+        // foreach (Collider collider in colliders)
+        // {
+        //     collider.enabled = false;
+        // }
+        invincible = true;
+        move.moveable = false;
+        rb.useGravity = false;
+        canShoot = false;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Shield"));
+
+        //Dunk!
+        float drag = rb.drag;
+        rb.drag = 0;
+        Vector3 velocity = rb.velocity;
+        for (float timeElapsed = 0f; timeElapsed < windUpTime; timeElapsed += Time.deltaTime)
+        {
+            //slowing to stop
+            rb.velocity = velocity * EasingFunction.EaseOutQuart(1, 0, timeElapsed/slowTime);
+            
+            //winding up
+            Vector3 directionVector = (enemy.transform.position - transform.position).normalized;
+            rb.velocity += directionVector * EasingFunction.EaseInBack(0, dunkingVelocity, timeElapsed/windUpTime);
+            // rb.velocity = directionVector * 100;
+            if ((enemy.transform.position - transform.position).magnitude < enemyDistance)
+            {
+                break;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+        
+        //wait for contact
+        while ((enemy.transform.position - transform.position).magnitude < enemyDistance)
+        {
+            rb.velocity = (enemy.transform.position - transform.position).normalized * dunkingVelocity;
+            yield return null;
+        }
+        
+        //On Contact
+        enemy.TakeDamage(enemy.health);
+        rb.drag = drag;
+        
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position - new Vector3(0, 0.4f, 0), dunkingExplosionRadius);
+        foreach (var hitCollider in hitColliders)
+        {
+            Rigidbody rb = hitCollider.GetComponent<Rigidbody>();
+            if (rb != null && hitCollider.gameObject.layer != LayerMask.NameToLayer("Player"))
+            {
+                rb.isKinematic = false;
+                rb.AddExplosionForce(dunkingExplosionPower, transform.position, dunkingExplosionRadius, 3.0f,
+                    ForceMode.Impulse);
+            }
+        }
+        yield return null;
+        
+        //reset
+        move.moveable = true;
+        rb.useGravity = true;
+        canShoot = true;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Shield"), false);
+
+        yield return new WaitForSeconds(dunkingInvincibilityTime);
+        invincible = false;
+        
+        yield return new WaitForSeconds(0.8f);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider)
+            {
+                Rigidbody rb = hitCollider.GetComponent<Rigidbody>();
+                if (rb != null && hitCollider.gameObject.layer != LayerMask.NameToLayer("Player"))
+                {
+                    rb.isKinematic = true;
+                    rb.AddExplosionForce(dunkingExplosionPower, transform.position, dunkingExplosionRadius, 3.0f,
+                        ForceMode.Impulse);
+                }
+            }
+        }
     }
 
     public void Die()
@@ -274,6 +422,38 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(cooldown);
         canShoot = true;
     }
+
+    IEnumerator DamageAnimation()
+    {
+        float hold = 0.6f;
+        float timeOut = 0.8f;
+        float maxIntensity = 0.55f;
+        float minIntensity = 0.3f;
+        float lowHealth = (float)maxHealth / 5;
+        float lowHealthIntensity = 0.25f;
+        
+        //start up
+        float end = ((float)(maxHealth - health) / maxHealth) * (maxIntensity - minIntensity) + minIntensity;
+        damageVignette.intensity.value = end;
+        
+        //hold
+        yield return new WaitForSeconds(hold);
+
+        //ease out
+        float normalIntensity = 0;
+        if (health < lowHealth)
+        {
+            normalIntensity = lowHealthIntensity;
+        }
+        Debug.Log(normalIntensity);
+        for (float timeElapsed = 0f; timeElapsed < timeOut; timeElapsed += Time.deltaTime)
+        {
+            damageVignette.intensity.value = EasingFunction.EaseInOutQuad(end, normalIntensity, timeElapsed);
+            yield return null;
+        }
+        damageVignette.intensity.value = normalIntensity;
+    }
+    
 }
 
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public enum GameState
 {
@@ -29,6 +30,8 @@ public class GameManager : Singleton<GameManager>
     public int Score => score;
     private int round = 0;
     public int Round => round;
+    private Volume volume;
+    public Volume Volume => volume;
     
     //events - these can be recieved and trigger things all throughout the game
     public static event Action GameStart;
@@ -36,22 +39,16 @@ public class GameManager : Singleton<GameManager>
     public static event Action GameOver;
     public static event Action GoToMenu;
 
+    public override void Awake()
+    {
+        base.Awake();
+        volume = GameObject.Find("Global Volume").GetComponent<Volume>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         SetGameState(GameState.Menu);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-#if UNITY_EDITOR
-        //Debug
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameState = GameState.Playing;
-        }
-#endif
     }
 
     public void SetGameState(GameState newGameState)
@@ -62,6 +59,8 @@ public class GameManager : Singleton<GameManager>
             case (GameState.Menu):
             {
                 GoToMenu?.Invoke();
+                round = 0;
+                score = 0;
                 break;
             }
             case (GameState.Playing):

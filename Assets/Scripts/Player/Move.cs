@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-
+    public bool moveable = true;
     public float moveSpeed;
 
     public float groundDrag;
@@ -17,6 +17,7 @@ public class Move : MonoBehaviour
     public float playerHeight;
     public LayerMask groundLayer;
     bool grounded;
+    public bool Grounded => grounded;
 
     public float maxSlopeAngle;
     RaycastHit slopeHit;
@@ -29,6 +30,12 @@ public class Move : MonoBehaviour
     Vector3 moveDir;
 
     Rigidbody rb;
+    
+#if UNITY_EDITOR
+    private bool counting = false;
+    private int frameCount = 0;
+    private float timeTotal = 0;
+#endif
 
     private void Start()
     {
@@ -39,27 +46,51 @@ public class Move : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.GameState == GameState.Playing)
+        
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, groundLayer);
+        if (GameManager.Instance.GameState == GameState.Playing && moveable)
         {
-            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, groundLayer);
-
             InputFunc();
-            MaxSpeed();
-
-            if (grounded)
-            {
-                rb.drag = groundDrag;
-            }
-            else
-            {
-                rb.drag = 0;
-            }
         }
+        else
+        {
+            horizontalInput = 0;
+            verticalInput = 0;
+        }
+        MaxSpeed();
+
+        if (grounded)
+        {
+            rb.drag = groundDrag;
+        }
+        else
+        {
+            rb.drag = 0;
+        }
+        
+#if UNITY_EDITOR
+        //FPS counting
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            counting = !counting;
+            Debug.Log("Avg. Framerate: " + frameCount / timeTotal);
+            timeTotal = 0;
+            frameCount = 0;
+        }
+        if (counting)
+        {
+            timeTotal += Time.deltaTime;
+            frameCount++;
+        }
+#endif
     }
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (moveable)
+        {
+            MovePlayer();
+        }
     }
 
     private void InputFunc()
@@ -118,7 +149,9 @@ public class Move : MonoBehaviour
 
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse); 
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Player/Jump");
     }
 
     private void ResetJump()

@@ -55,9 +55,9 @@ public class RightBall : MonoBehaviour
             Rigidbody rb = hitCollider.GetComponent<Rigidbody>();
             if (rb != null) rb.AddExplosionForce(250f, transform.position, radius, 3.0f);
 
-            //if (hitCollider.tag == "Shielded" || hitCollider.tag == "Base"){
-                hitCollider.SendMessage("TakeDamage", GameManager.Instance.Player.damage);
-            //}
+            if (hitCollider){
+                hitCollider.SendMessage("TakeDamage", GameManager.Instance.Player.damage, SendMessageOptions.DontRequireReceiver);
+            }
         }
     }
 }

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEditor.AI;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class EnemyStats
@@ -28,10 +30,15 @@ public class Enemy : MonoBehaviour
     [Header("Current Stats")]
     public int health = 5;
 
+    private bool attacking = false;
+
     private Coroutine movingCoroutine;
     ParticleSystem explosion;
     private Rigidbody rigidbody;
     private NavMeshAgent agent;
+
+    private FMOD.Studio.EventInstance growl;
+    private Coroutine audioCoroutine;
 
     private void Awake()
     {
@@ -43,11 +50,28 @@ public class Enemy : MonoBehaviour
     // Start is called on spawn
     void Start()
     {
-        movingCoroutine = StartCoroutine(MoveTowardsPlayer());
+        audioCoroutine = StartCoroutine(GrowlCoroutine());
+        
         health = stats.health;
+        movingCoroutine = StartCoroutine(MoveTowardsPlayer());
     }
 
-    protected virtual void TakeDamage(int damage)
+    private void OnEnable()
+    {
+        GameManager.GameOver += OnGameOver;
+    }
+    private void OnDisable()
+    {
+        GameManager.GameOver -= OnGameOver;
+    }
+
+    private void OnGameOver()
+    {
+        StopCoroutine(movingCoroutine);
+        agent.isStopped = true;
+    }
+
+    public virtual void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
@@ -59,19 +83,36 @@ public class Enemy : MonoBehaviour
     //TODO: be called when enemy hits the player
     public virtual IEnumerator Attack()
     {
-        GameManager.Instance.Player.TakeDamage(stats.damage);
-        StopCoroutine(movingCoroutine);
-        yield return null;
-        
-        //TODO: death/attack animation, particle effects, etc.
-        
-        GameManager.Instance.enemyManager.RemoveEnemy(this);
-        Destroy(gameObject);
+        if (!attacking)
+        {
+            //SFX
+            growl.stop(STOP_MODE.ALLOWFADEOUT);
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Attack", gameObject);
+            
+            attacking = true;
+            GameManager.Instance.Player.TakeDamage(stats.damage);
+            GameManager.Instance.enemyManager.RemoveEnemy(this);
+            StopCoroutine(movingCoroutine);
+            yield return null;
+
+            //TODO: death/attack animation, particle effects, etc.
+
+            Destroy(gameObject);
+        }
     }
 
     protected virtual IEnumerator Die()
     {
+        //SFX
+        StopCoroutine(audioCoroutine);
+        growl.stop(STOP_MODE.ALLOWFADEOUT);
+        
         GameManager.Instance.enemyManager.RemoveEnemy(this);
+        var colliders = GetComponentsInChildren<Collider>();
+        foreach(var collider in colliders)
+        {
+            collider.enabled = false;
+        }
         StopCoroutine(movingCoroutine);
         yield return null;
         
@@ -102,6 +143,7 @@ public class Enemy : MonoBehaviour
             // rigidbody.velocity = transform.forward * stats.speed;
             // yield return null;
             agent.SetDestination(GameManager.Instance.Player.transform.position);
+            
             yield return null;
         }
     }
@@ -116,7 +158,28 @@ public class Enemy : MonoBehaviour
             }
         } else if (other.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(Attack());
+            if (!GameManager.Instance.Player.invincible)
+            {
+                StartCoroutine(Attack());
+            }
+        }
+    }
+
+    IEnumerator GrowlCoroutine()
+    {
+        while (true)
+        {
+            if (Random.Range(0f, 1f) > 0.8)
+            {
+                
+                growl = FMODUnity.RuntimeManager.CreateInstance("event:/SFX/Enemies/Growl");
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(growl, transform);
+                growl.start();
+                growl.release();
+                Debug.Log("Playing!");
+                yield return new WaitForSeconds(1f);
+            }
+            yield return new WaitForSeconds(0.8f + Random.Range(0, 1));
         }
     }
 }

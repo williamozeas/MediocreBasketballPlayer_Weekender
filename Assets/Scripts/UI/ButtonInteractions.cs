@@ -27,7 +27,7 @@ public class ButtonInteractions : MonoBehaviour
     public void OnGameOver()
     {
         MainBackground.SetActive(false);
-        MainBackgroundLight.SetActive(true);
+        MainBackgroundLight.SetActive(false);
         EndingPage.SetActive(true);
         PlayPage.SetActive(false);
     }

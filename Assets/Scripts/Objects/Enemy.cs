@@ -177,7 +177,7 @@ public class Enemy : MonoBehaviour
                 FMODUnity.RuntimeManager.AttachInstanceToGameObject(growl, transform);
                 growl.start();
                 growl.release();
-                Debug.Log("Playing!");
+                //Debug.Log("Playing!");
                 yield return new WaitForSeconds(1f);
             }
             yield return new WaitForSeconds(0.8f + Random.Range(0, 1));

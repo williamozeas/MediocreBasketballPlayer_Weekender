@@ -204,7 +204,7 @@ MonoBehaviour:
   damage: 5
   invincible: 0
   cooldown: 0.2
-  chargeRate: 1.5
+  chargeRate: 3
   minChargedVelocity: 1
   maxChargedVelocity: 9
   chargedVelocity: 0

@@ -106,6 +106,7 @@ public class Enemy : MonoBehaviour
         //SFX
         StopCoroutine(audioCoroutine);
         growl.stop(STOP_MODE.ALLOWFADEOUT);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Death", gameObject);
         
         GameManager.Instance.enemyManager.RemoveEnemy(this);
         var colliders = GetComponentsInChildren<Collider>();
@@ -176,7 +177,7 @@ public class Enemy : MonoBehaviour
                 FMODUnity.RuntimeManager.AttachInstanceToGameObject(growl, transform);
                 growl.start();
                 growl.release();
-                Debug.Log("Playing!");
+                //Debug.Log("Playing!");
                 yield return new WaitForSeconds(1f);
             }
             yield return new WaitForSeconds(0.8f + Random.Range(0, 1));

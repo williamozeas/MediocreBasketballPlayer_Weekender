@@ -36,6 +36,8 @@ public class RightBall : MonoBehaviour
     {
         if (!collided) {
             collided = true;
+            
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Player/Lob", gameObject);
             GameObject exp = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
             ParticleSystem p =  exp.GetComponent<ParticleSystem>();
             var main = p.main;

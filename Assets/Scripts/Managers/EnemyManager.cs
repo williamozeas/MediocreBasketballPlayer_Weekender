@@ -14,6 +14,8 @@ public class EnemyManager : MonoBehaviour
     private List<Enemy> aliveEnemies = new List<Enemy>();
 
     private Coroutine spawningCoroutine;
+    private int currentWaveTotal;
+    public int CurrentWaveTotal => currentWaveTotal;
     
     private void Awake()
     {
@@ -63,6 +65,7 @@ public class EnemyManager : MonoBehaviour
     void SpawnWave(Wave wave)
     {
         spawningCoroutine = StartCoroutine(SpawnWaveCoroutine(wave));
+        currentWaveTotal = wave.GetEnemyTotal();
     }
     
     //Loop through enemy sets that spawn together 

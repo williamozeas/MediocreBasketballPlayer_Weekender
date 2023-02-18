@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1301394361426699759
 Transform:
@@ -48,7 +48,7 @@ GameObject:
   m_TagString: Coliseum
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4169953172844006935
 Transform:
@@ -144,7 +144,7 @@ GameObject:
   m_TagString: Coliseum
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6382794578353129922
 Transform:
@@ -183,7 +183,7 @@ GameObject:
   m_TagString: Coliseum
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 0
 --- !u!4 &4235354032104315551
 Transform:
@@ -279,7 +279,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &9125408034442262328
 Transform:
@@ -303,6 +303,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6382794578353129922}
     m_Modifications:
+    - target: {fileID: -9093216999384310446, guid: daae3e0cdef504268b21cc980b3219ff,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: daae3e0cdef504268b21cc980b3219ff,
         type: 3}
       propertyPath: m_RootOrder
@@ -388,8 +393,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: stadium
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: daae3e0cdef504268b21cc980b3219ff,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: daae3e0cdef504268b21cc980b3219ff, type: 3}
+--- !u!1 &254693223486509984 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -9093216999384310446, guid: daae3e0cdef504268b21cc980b3219ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 164026734016679666}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &4641689952067855882
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254693223486509984}
+  m_Material: {fileID: 13400000, guid: 0b5da268e9bd34adc9ccc28b3b701103, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!4 &417713329789085977 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: daae3e0cdef504268b21cc980b3219ff,
@@ -402,14 +432,14 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 164026734016679666}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &3142186662055625295
+--- !u!64 &2454334350690765494
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047039238869513123}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0b5da268e9bd34adc9ccc28b3b701103, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4

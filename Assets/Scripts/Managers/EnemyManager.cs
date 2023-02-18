@@ -126,6 +126,7 @@ public class EnemyManager : MonoBehaviour
         }
         enemy.transform.LookAt(GameManager.Instance.Player.transform.position);
         aliveEnemies.Add(enemy);
+        GameManager.Instance.AddEnemyCount(1);
     }
 
     public void RemoveEnemy(Enemy enemy)
@@ -133,4 +134,9 @@ public class EnemyManager : MonoBehaviour
         aliveEnemies.Remove(enemy);
         GameManager.Instance.AddScore(1);
     }
+
+    // public void GetSpawnCount(List<Transform> enemies)
+    // {
+    //     GameManager.Instance.SpawnCount = spawnPoints.Count;
+    // }
 }

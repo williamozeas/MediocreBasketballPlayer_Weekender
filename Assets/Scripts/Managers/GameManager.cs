@@ -32,6 +32,8 @@ public class GameManager : Singleton<GameManager>
     public int Round => round;
     private Volume volume;
     public Volume Volume => volume;
+    public int spawnCount = 0;
+    public int SpawnCount => spawnCount;
     
     //events - these can be recieved and trigger things all throughout the game
     public static event Action GameStart;
@@ -97,5 +99,10 @@ public class GameManager : Singleton<GameManager>
     public void AddScore(int addScore)
     {
         score += addScore;
+    }
+
+    public void AddEnemyCount(int addEnemy)
+    {
+        spawnCount += addEnemy;
     }
 }

@@ -129,7 +129,6 @@ public class EnemyManager : MonoBehaviour
         }
         enemy.transform.LookAt(GameManager.Instance.Player.transform.position);
         aliveEnemies.Add(enemy);
-        GameManager.Instance.AddEnemyCount(1);
     }
 
     public void RemoveEnemy(Enemy enemy)

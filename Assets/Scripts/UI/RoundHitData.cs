@@ -6,6 +6,7 @@ using TMPro;
 
 public class RoundHitData : MonoBehaviour
 {
+    private int waveTotal;
     public TextMeshProUGUI dataText;
     public TextMeshProUGUI roundText;
 
@@ -18,7 +19,8 @@ public class RoundHitData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        dataText.text = GameManager.Instance.Score.ToString() + "  /  " + GameManager.Instance.SpawnCount.ToString();
+        waveTotal = GameManager.Instance.enemyManager.CurrentWaveTotal;
+        dataText.text = (waveTotal - GameManager.Instance.Score).ToString() + "  /  " + waveTotal.ToString();
         roundText.text = "ROUND " + GameManager.Instance.Round.ToString();
     }
 }

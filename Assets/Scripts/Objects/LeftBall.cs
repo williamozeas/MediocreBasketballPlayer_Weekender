@@ -19,6 +19,12 @@ public class LeftBall : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject, 1f);
+        Debug.Log(collision.impulse.magnitude);
+        FMOD.Studio.EventInstance bounce = FMODUnity.RuntimeManager.CreateInstance("event:/SFX/Ball Bounce");
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(bounce, transform);
+        bounce.setParameterByName("NormalSpeed", collision.impulse.magnitude);
+        bounce.start();
+        bounce.release();
+        Destroy(gameObject, 1.2f);
     }
 }

@@ -194,6 +194,7 @@ public class Player : MonoBehaviour
 
     private void LeftClickShoot()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Player/Throw");
         //call handball to do an anim type deal
 
         Vector3 shootDirection = camTrans.forward;
@@ -237,6 +238,7 @@ public class Player : MonoBehaviour
 
     private void RightHoldShoot()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Player/Throw");
         deleting = EraseShootingLine();
         StartCoroutine(deleting);
 
@@ -342,6 +344,8 @@ public class Player : MonoBehaviour
         rb.useGravity = false;
         canShoot = false;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Shield"));
+        
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/VO/Dunk");
 
         //Dunk!
         float drag = rb.drag;
@@ -373,6 +377,8 @@ public class Player : MonoBehaviour
         //On Contact
         enemy.TakeDamage(enemy.health);
         rb.drag = drag;
+        
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Player/Lob");
         
         Collider[] hitColliders = Physics.OverlapSphere(transform.position - new Vector3(0, 0.4f, 0), dunkingExplosionRadius);
         foreach (var hitCollider in hitColliders)

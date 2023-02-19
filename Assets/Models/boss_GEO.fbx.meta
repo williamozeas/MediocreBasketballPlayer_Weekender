@@ -3,42 +3,7 @@ guid: 5cb96cb44ede2434ba41448095e77d05
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: backboardMat
-    second: {fileID: 2100000, guid: 2075059737a804d98966c4f7ea084cf7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: bossMat
-    second: {fileID: 2100000, guid: d292d7fd794684c34a1cc99198364087, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: crownMat
-    second: {fileID: 2100000, guid: c54197014385c427491edaeaa94b3ea4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: eyeMat
-    second: {fileID: 2100000, guid: c54197014385c427491edaeaa94b3ea4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ringMat
-    second: {fileID: 2100000, guid: c54197014385c427491edaeaa94b3ea4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ropeMat
-    second: {fileID: 2100000, guid: 512f0098d710844bcb073daa641467bb, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: teethMat
-    second: {fileID: 2100000, guid: 98a61315c11574083b58d5e49e175cd2, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

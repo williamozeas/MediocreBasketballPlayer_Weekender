@@ -331,7 +331,7 @@ public class Player : MonoBehaviour
     {
         float slowTime = 0.3f;
         float windUpTime = 0.3f;
-        float enemyDistance = 0.15f;
+        float enemyDistance = 1.5f;
         
         //disable colliders etc
         // var colliders = GetComponentsInChildren<Collider>();
@@ -368,11 +368,13 @@ public class Player : MonoBehaviour
         }
         
         //wait for contact
-        while ((enemy.transform.position - transform.position).magnitude < enemyDistance)
+        while ((enemy.transform.position - transform.position).magnitude > enemyDistance)
         {
+            Debug.Log((enemy.transform.position - transform.position).magnitude);
             rb.velocity = (enemy.transform.position - transform.position).normalized * dunkingVelocity;
             yield return null;
         }
+        
         
         //On Contact
         enemy.TakeDamage(enemy.health);

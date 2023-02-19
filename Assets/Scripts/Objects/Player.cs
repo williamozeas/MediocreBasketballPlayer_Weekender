@@ -360,6 +360,10 @@ public class Player : MonoBehaviour
             Vector3 directionVector = (enemy.transform.position - transform.position).normalized;
             rb.velocity += directionVector * EasingFunction.EaseInBack(0, dunkingVelocity, timeElapsed/windUpTime);
             // rb.velocity = directionVector * 100;
+            if (!enemy)
+            {
+                break;
+            }
             if ((enemy.transform.position - transform.position).magnitude < enemyDistance)
             {
                 break;
@@ -368,16 +372,15 @@ public class Player : MonoBehaviour
         }
         
         //wait for contact
-        while ((enemy.transform.position - transform.position).magnitude > enemyDistance)
+        while (enemy && (enemy.transform.position - transform.position).magnitude > enemyDistance)
         {
-            Debug.Log((enemy.transform.position - transform.position).magnitude);
             rb.velocity = (enemy.transform.position - transform.position).normalized * dunkingVelocity;
             yield return null;
         }
         
         
         //On Contact
-        enemy.TakeDamage(enemy.health);
+        if(enemy) enemy.TakeDamage(enemy.health);
         CameraShake.i.Shake(3);
         
         FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Player/Lob");

@@ -45,7 +45,7 @@ public class RightBall : MonoBehaviour
             main.startSpeed = lifeTime * 3f / expTime;
             main.startLifetime = expTime;
             p.Play();
-            Destroy(gameObject, .05f);
+            Destroy(gameObject, .1f);
             ExplosionDamage(transform.position, lifeTime * 3f);
         }
     }

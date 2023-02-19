@@ -376,9 +376,19 @@ public class Player : MonoBehaviour
         
         //On Contact
         enemy.TakeDamage(enemy.health);
-        rb.drag = drag;
+        CameraShake.i.Shake(3);
         
         FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Player/Lob");
+        
+        Collider[] hitColliderstwo = Physics.OverlapSphere(transform.position - new Vector3(0, 0.4f, 0), dunkingExplosionRadius/2f);
+        foreach (var hitCollider in hitColliderstwo)
+        {
+            Enemy enemyClose = hitCollider.GetComponent<Enemy>();
+            if (enemyClose != null)
+            {
+                enemyClose.TakeDamage(enemyClose.health);
+            }
+        }
         
         Collider[] hitColliders = Physics.OverlapSphere(transform.position - new Vector3(0, 0.4f, 0), dunkingExplosionRadius);
         foreach (var hitCollider in hitColliders)
@@ -392,6 +402,7 @@ public class Player : MonoBehaviour
             }
         }
         yield return null;
+        rb.drag = drag;
         
         //reset
         move.moveable = true;
@@ -402,7 +413,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(dunkingInvincibilityTime);
         invincible = false;
         
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.7f);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider)

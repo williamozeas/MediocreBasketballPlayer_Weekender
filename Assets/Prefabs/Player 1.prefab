@@ -186,7 +186,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 2048
-  maxSlopeAngle: 0
+  maxSlopeAngle: 90
   orientation: {fileID: 5059327038035718556}
 --- !u!114 &5059327039085678275
 MonoBehaviour:
@@ -212,9 +212,9 @@ MonoBehaviour:
   percentCharge: 0
   dunkingMinHeight: 5
   dunkingMaxAngle: 50
-  dunkingMaxDistance: 15
+  dunkingMaxDistance: 30
   dunkingVelocity: 100
-  dunkingInvincibilityTime: 0.4
+  dunkingInvincibilityTime: 0.8
   dunkingExplosionPower: 50
   dunkingExplosionRadius: 7
   leftBallPrefab: {fileID: 0}

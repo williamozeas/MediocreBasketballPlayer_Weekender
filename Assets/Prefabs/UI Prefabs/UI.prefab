@@ -209,10 +209,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01a7ec0feac94f17adc9186677f6f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameOverBg: {fileID: 0}
-  VictoryBg: {fileID: 0}
-  GameOverText: {fileID: 0}
-  VictoryText: {fileID: 0}
+  GameOverBg: {fileID: 2050967474065324448}
+  VictoryBg: {fileID: 3735065521410374738}
+  GameOverText: {fileID: 639828483834261939}
+  VictoryText: {fileID: 8546177429146689721}
 --- !u!1 &2447310980802612206
 GameObject:
   m_ObjectHideFlags: 0
@@ -2541,10 +2541,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4792871398339864920}
     m_Modifications:
+    - target: {fileID: 2020231731075397061, guid: 84c663c65337145f3b887bedb69608a2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020231731333358808, guid: 84c663c65337145f3b887bedb69608a2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020231731333358808, guid: 84c663c65337145f3b887bedb69608a2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2020231731342314739, guid: 84c663c65337145f3b887bedb69608a2,
         type: 3}
       propertyPath: m_Name
       value: FinalRoundPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020231731342314739, guid: 84c663c65337145f3b887bedb69608a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2020231731342314748, guid: 84c663c65337145f3b887bedb69608a2,
         type: 3}
@@ -2651,9 +2671,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2020231731374565596, guid: 84c663c65337145f3b887bedb69608a2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2020231731478491449, guid: 84c663c65337145f3b887bedb69608a2,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020231731616130606, guid: 84c663c65337145f3b887bedb69608a2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020231731616130606, guid: 84c663c65337145f3b887bedb69608a2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

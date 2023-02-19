@@ -467,7 +467,6 @@ public class Player : MonoBehaviour
         {
             normalIntensity = lowHealthIntensity;
         }
-        Debug.Log(normalIntensity);
         for (float timeElapsed = 0f; timeElapsed < timeOut; timeElapsed += Time.deltaTime)
         {
             damageVignette.intensity.value = EasingFunction.EaseInOutQuad(end, normalIntensity, timeElapsed);

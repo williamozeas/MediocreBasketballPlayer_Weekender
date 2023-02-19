@@ -11,7 +11,7 @@ public class Boss : MonoBehaviour
     private Animator animator;
     public Animator outlineAnimator;
 
-    public int totalHits = 6;
+    public int maxHealth = 6;
     public int health = 6;
     
     void Awake()
@@ -27,7 +27,7 @@ public class Boss : MonoBehaviour
 
     private void OnWaveStart(Wave wave)
     {
-        health = totalHits;
+        health = maxHealth;
         // if (GameManager.Instance.Round == 3)
         {
             animator.SetBool("LastRound", true);

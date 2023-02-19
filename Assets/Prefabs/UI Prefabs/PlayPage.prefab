@@ -600,6 +600,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3488070974638366817}
+  - component: {fileID: 2529838473472544346}
   - component: {fileID: 4951366328239624285}
   m_Layer: 0
   m_Name: PlayPage
@@ -634,6 +635,18 @@ RectTransform:
   m_AnchoredPosition: {x: -730.2, y: -510.71478}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2529838473472544346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5410206284343040194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3075cbd932d4fb486424633221dc88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4951366328239624285
 MonoBehaviour:
   m_ObjectHideFlags: 0

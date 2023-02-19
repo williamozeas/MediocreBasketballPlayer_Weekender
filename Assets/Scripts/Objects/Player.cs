@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool invincible = false;
 
     public float cooldown;
+    public float invincibleTime = 1f;
     bool canShoot;
     bool shooting;
     
@@ -290,6 +291,7 @@ public class Player : MonoBehaviour
             StopCoroutine(damageAnim);
         }
         damageAnim = StartCoroutine(DamageAnimation());
+        StartCoroutine(Invincibility(invincibleTime));
 
         if (health <= 0)
         {
@@ -473,6 +475,13 @@ public class Player : MonoBehaviour
             yield return null;
         }
         damageVignette.intensity.value = normalIntensity;
+    }
+
+    IEnumerator Invincibility(float time)
+    {
+        invincible = true;
+        yield return new WaitForSeconds(time);
+        invincible = false;
     }
     
 }

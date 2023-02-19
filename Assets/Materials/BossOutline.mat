@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BossSkin
-  m_Shader: {fileID: -6465566751694194690, guid: 03656a6f8d871462d8ad383852092734,
+  m_Name: BossOutline
+  m_Shader: {fileID: -6465566751694194690, guid: 7a8756ceeb1f94698bfe774e9a6037ca,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -22,7 +22,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: c3b167d54adf04003af3b208c019b769, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -46,11 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c3b167d54adf04003af3b208c019b769, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: c3b167d54adf04003af3b208c019b769, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -84,7 +80,6 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _Ambient: 0.2
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -100,15 +95,12 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Offset: 0.35
-    - _OffsetPoint: 0.4
+    - _Outline_Thickness: 0.008
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RimPower: 5
-    - _Rim_Brightness: 1
-    - _Smoothness: 0
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -119,10 +111,10 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Outline_Color: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Tinting: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5463919937685351402
+--- !u!114 &913867087672662872
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

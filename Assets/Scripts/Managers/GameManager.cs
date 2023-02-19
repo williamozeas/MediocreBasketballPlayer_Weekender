@@ -32,7 +32,8 @@ public class GameManager : Singleton<GameManager>
     public int Round => round;
     private Volume volume;
     public Volume Volume => volume;
-    
+    public Boss Boss;
+
     //events - these can be recieved and trigger things all throughout the game
     public static event Action GameStart;
     public static event Action<Wave> WaveStart;

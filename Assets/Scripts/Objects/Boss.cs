@@ -12,12 +12,12 @@ public class Boss : MonoBehaviour
     public Animator outlineAnimator;
 
     public int totalHits = 6;
-    private int health = 6;
+    public int health = 6;
     
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
+        GameManager.Instance.Boss = this;
     }
 
     private void OnEnable()

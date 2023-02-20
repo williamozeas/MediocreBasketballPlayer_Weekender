@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18, y: 35}
+  m_AnchoredPosition: {x: 20.6, y: 35}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8942614952261248979
@@ -76,8 +76,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291348680
-  m_fontColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
+    rgba: 4293848814
+  m_fontColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -369,18 +369,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2018783101243212592}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 761811339304987492}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 154.35, y: 0.7499995}
-  m_SizeDelta: {x: -247.10002, y: -30.099998}
+  m_AnchoredPosition: {x: 92.5, y: 48.85}
+  m_SizeDelta: {x: -253, y: -40.699993}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3492388995174039604
 CanvasRenderer:
@@ -526,7 +526,7 @@ RectTransform:
   m_Children:
   - {fileID: 3394113784784536317}
   m_Father: {fileID: 761811339304987492}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -568,7 +568,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 45, y: -21.7}
+  m_AnchoredPosition: {x: 78.1, y: -21.7}
   m_SizeDelta: {x: 200, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2886254196832401712
@@ -704,8 +704,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -53.170002, y: -0.3550005}
-  m_SizeDelta: {x: 46.260002, y: 12.890001}
+  m_AnchoredPosition: {x: -90.90001, y: 6.6549997}
+  m_SizeDelta: {x: -38, y: -1.1299999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3670386930694770634
 CanvasRenderer:
@@ -846,16 +846,16 @@ RectTransform:
   m_LocalScale: {x: 1.5684099, y: 1.5684099, z: 1.3070099}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9145003284946902024}
   - {fileID: 5445762704474842284}
   - {fileID: 3914528039902978208}
   - {fileID: 6253154024687444302}
-  - {fileID: 9145003284946902024}
   m_Father: {fileID: 3488070974638366817}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 70.81268, y: 910.7148}
+  m_AnchoredPosition: {x: 50.3, y: 910.7148}
   m_SizeDelta: {x: 280, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2890776443106695476
@@ -2036,7 +2036,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -23.06}
-  m_SizeDelta: {x: 200, y: 10}
+  m_SizeDelta: {x: 220, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &441868789680433579
 CanvasRenderer:
@@ -2066,7 +2066,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DUNK ON THE BOSS!
+  m_text: "DUNK ON \nTHE BOSS!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5ad6c5d0555bb45c4b58b210029805be, type: 2}
   m_sharedMaterial: {fileID: 7751054915758035243, guid: 5ad6c5d0555bb45c4b58b210029805be,
@@ -2094,14 +2094,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34
-  m_fontSizeBase: 34
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2489,12 +2489,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 761811339304987492}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.25}
   m_AnchorMax: {x: 0.5, y: 0.75}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 290, y: 0}
+  m_AnchoredPosition: {x: -26.1, y: 5}
+  m_SizeDelta: {x: 230, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5918323483838389339
 CanvasRenderer:
@@ -2678,7 +2678,7 @@ RectTransform:
   m_Children:
   - {fileID: 6515120917771158233}
   m_Father: {fileID: 761811339304987492}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.25}
   m_AnchorMax: {x: 0.5, y: 0.75}

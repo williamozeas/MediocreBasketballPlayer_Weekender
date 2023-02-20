@@ -20,6 +20,10 @@ public class FinalRoundControl : MonoBehaviour
         {
             BossHealthBar.gameObject.SetActive(false);
         }
+        else
+        {
+            BossHealthBar.gameObject.SetActive(true);
+        }
     }
 
 }

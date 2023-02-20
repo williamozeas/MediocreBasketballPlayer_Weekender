@@ -54,7 +54,7 @@ public class EnemyManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         
         //temp: end game
-        GameManager.Instance.GameState = GameState.GameEnd;
+        // GameManager.Instance.GameState = GameState.GameEnd;
 
         //TODO:
         //add UI or FX?

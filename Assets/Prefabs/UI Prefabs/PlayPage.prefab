@@ -799,7 +799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3075cbd932d4fb486424633221dc88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
+  slider: {fileID: 2890776443106695476}
 --- !u!114 &4951366328239624285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,7 +823,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 761811339304987492}
-  - component: {fileID: 2148346191626225898}
   - component: {fileID: 2890776443106695476}
   m_Layer: 0
   m_Name: BossHealthBar
@@ -856,19 +855,6 @@ RectTransform:
   m_AnchoredPosition: {x: 70.81268, y: 910.7148}
   m_SizeDelta: {x: 280, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2148346191626225898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6007873964619962950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19d3a956d91214d0384278af5b11248d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BossHealthBar: {fileID: 2890776443106695476}
 --- !u!114 &2890776443106695476
 MonoBehaviour:
   m_ObjectHideFlags: 0

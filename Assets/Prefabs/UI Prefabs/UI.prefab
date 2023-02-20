@@ -2015,8 +2015,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 761811339304987492, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 761811339304987492, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 761811339304987492, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.500003
+      objectReference: {fileID: 0}
+    - target: {fileID: 761811339304987492, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 240
+      value: 466.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 761811339304987492, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 911.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 761811339304987492, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 804333757373150403, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
         type: 3}
@@ -2060,7 +2085,17 @@ PrefabInstance:
       objectReference: {fileID: 3584300154972457579}
     - target: {fileID: 3394113784784536317, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394113784784536317, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
+        type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394113784784536317, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
+        type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3488070974638366817, guid: 130d40bd0a6ac40cd91ad8ea29f8af9e,
@@ -2353,6 +2388,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1847575203324089183}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7885411110101194339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5960248199798688669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d3a956d91214d0384278af5b11248d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BossHealthBar: {fileID: 3584300154972457579}
 --- !u!1001 &4335578371991227226
 PrefabInstance:
   m_ObjectHideFlags: 0

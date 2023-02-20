@@ -94,12 +94,20 @@ public class EnemyManager : MonoBehaviour
                 yield return new WaitForSeconds(wave.timeBetweenSets);
             }
         }
-        //wait for all enemies to be dead
-        while (aliveEnemies.Count > 0)
+
+        if (GameManager.Instance.Round < 3)
         {
-            yield return null;
+            //wait for all enemies to be dead
+            while (aliveEnemies.Count > 0)
+            {
+                yield return null;
+            }
+            StartCoroutine(EndRound());
         }
-        StartCoroutine(EndRound());
+        else
+        {
+            SpawnWave(wave);
+        }
     }
 
     void SpawnEnemy(EnemyType enemyType, int spawnPoint)

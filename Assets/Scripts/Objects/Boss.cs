@@ -30,10 +30,15 @@ public class Boss : MonoBehaviour
         health = maxHealth;
         animator.enabled = true;
         outlineAnimator.enabled = true;
-        // if (GameManager.Instance.Round == 3)
+        if (GameManager.Instance.Round == 3)
         {
             animator.SetBool("LastRound", true);
             outlineAnimator.SetBool("LastRound", true);
+        }
+        else
+        {
+            animator.SetBool("LastRound", false);
+            outlineAnimator.SetBool("LastRound", false);
         }
     }
 

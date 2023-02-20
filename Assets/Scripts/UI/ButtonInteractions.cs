@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.UI;
 
 public class ButtonInteractions : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class ButtonInteractions : MonoBehaviour
     public GameObject HowToPlayPage;
     public GameObject PlayPage;
     public GameObject EndingPage;
+    public GameObject Intro, I1, I2, I3, I4, I5, I6, I7, I8, I9;
+
+    public float time1, time2, time3, time4, time5, time6, time7, time8, time9;
+
+    public bool introSeen;
+
 
     private void OnEnable()
     {
@@ -45,12 +52,11 @@ public class ButtonInteractions : MonoBehaviour
     public void clickStartFromMain() {
         LandingPage.gameObject.SetActive(false);
         HowToPlayPage.gameObject.SetActive(false);
-        PlayPage.gameObject.SetActive(true);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(false);
         MainBackgroundLight.SetActive(false);
 
-        GameManager.Instance.GameState = GameState.Playing;
+        StartCoroutine(StartGame());
     }
 
     public void clickHowToPlayFromMain() {
@@ -65,12 +71,11 @@ public class ButtonInteractions : MonoBehaviour
     public void clickStartFromHowToPlay() {
         LandingPage.gameObject.SetActive(false);
         HowToPlayPage.gameObject.SetActive(false);
-        PlayPage.gameObject.SetActive(true);
         EndingPage.gameObject.SetActive(false);
         MainBackground.SetActive(false);
         MainBackgroundLight.SetActive(false);
 
-        GameManager.Instance.GameState = GameState.Playing;
+        StartCoroutine(StartGame());
     }
 
     public void clickBackFromHowToPlay() {
@@ -108,5 +113,46 @@ public class ButtonInteractions : MonoBehaviour
     void Start()
     {
         MainBackground.gameObject.SetActive(true);
+
+        introSeen = false;
+    }
+
+    IEnumerator StartGame()
+    {
+        if (!introSeen){
+            Intro.SetActive(true);
+            I1.SetActive(true);
+            yield return new WaitForSeconds(time1);
+            I2.SetActive(true);
+            Destroy(I1);
+            yield return new WaitForSeconds(time2);
+            I3.SetActive(true);
+            Destroy(I2);
+            yield return new WaitForSeconds(time3);
+            I4.SetActive(true);
+            Destroy(I3);
+            yield return new WaitForSeconds(time4);
+            I5.SetActive(true);
+            Destroy(I4);
+            yield return new WaitForSeconds(time5);
+            I6.SetActive(true);
+            Destroy(I5);
+            yield return new WaitForSeconds(time6);
+            I7.SetActive(true);
+            Destroy(I6);
+            yield return new WaitForSeconds(time7);
+            I8.SetActive(true);
+            Destroy(I7);
+            yield return new WaitForSeconds(time8);
+            I9.SetActive(true);
+            Destroy(I8);
+            yield return new WaitForSeconds(time9);
+            Destroy(I9);
+            Destroy(Intro);
+            introSeen = true;
+        }
+
+        PlayPage.gameObject.SetActive(true);
+        GameManager.Instance.GameState = GameState.Playing;
     }
 }

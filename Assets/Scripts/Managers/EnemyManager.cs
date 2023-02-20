@@ -71,6 +71,7 @@ public class EnemyManager : MonoBehaviour
     //Loop through enemy sets that spawn together 
     IEnumerator SpawnWaveCoroutine(Wave wave)
     {
+        yield return new WaitForSeconds(8);
         for (int setIndex = 0; setIndex < wave.enemySets.Count; setIndex++)
         {
             EnemySet set = wave.enemySets[setIndex];

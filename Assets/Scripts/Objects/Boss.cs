@@ -44,6 +44,7 @@ public class Boss : MonoBehaviour
 
     public void OnLaugh()
     {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/VO/Evil Laugh", gameObject);
         headCollider.enabled = false;
         mouthCollider.enabled = true;
     }
@@ -57,7 +58,7 @@ public class Boss : MonoBehaviour
     public void TakeDamage()
     {
         health--;
-        Debug.Log(health);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/VO/Ow", gameObject);
         if (health <= 0)
         {
             mouthCollider.enabled = false;
@@ -69,7 +70,10 @@ public class Boss : MonoBehaviour
     {
         animator.enabled = false;
         outlineAnimator.enabled = false;
-        yield return new WaitForSeconds(1f);
+        GameManager.Instance.Player.invincible = true;
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/VO/Wave 4");
+        yield return new WaitForSeconds(2f);
         GameManager.Instance.GameState = GameState.GameEnd;
+        GameManager.Instance.Player.invincible = false;
     }
 }

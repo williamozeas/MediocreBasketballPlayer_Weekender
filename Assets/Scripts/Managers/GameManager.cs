@@ -88,6 +88,8 @@ public class GameManager : Singleton<GameManager>
     {
         round++;
         score = 0;
+        string eventString = "event:/SFX/VO/Wave " + round;
+        FMODUnity.RuntimeManager.PlayOneShot(eventString);
         WaveStart?.Invoke(waveData.waves[round]);
     }
 

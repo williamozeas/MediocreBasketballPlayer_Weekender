@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Debug = FMOD.Debug;
+using UnityEngine.Rendering;
 
 public enum GameState
 {
@@ -14,6 +14,7 @@ public enum GameState
 
 public class GameManager : Singleton<GameManager>
 {
+    [Header("Data")] public WaveData waveData;
     private GameState _gamestate;
     public GameState GameState //GameState cannot be set without calling SetGameState
     {
@@ -24,31 +25,31 @@ public class GameManager : Singleton<GameManager>
     //Set in Awake() functions of player & enemyManager
     private Player player;
     public Player Player => player;
-    public EnemyManager enemyManager;
-    private int score; //idk if we want a score
+    [HideInInspector] public EnemyManager enemyManager;
+    private int score = 0; //number of enemies killed
     public int Score => score;
-    
+    private int round = 0;
+    public int Round => round;
+    private Volume volume;
+    public Volume Volume => volume;
+    public Boss Boss;
+
     //events - these can be recieved and trigger things all throughout the game
     public static event Action GameStart;
+    public static event Action<Wave> WaveStart;
     public static event Action GameOver;
     public static event Action GoToMenu;
+
+    public override void Awake()
+    {
+        base.Awake();
+        volume = GameObject.Find("Global Volume").GetComponent<Volume>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         SetGameState(GameState.Menu);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-#if UNITY_EDITOR
-        //Debug
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameState = GameState.Playing;
-        }
-#endif
     }
 
     public void SetGameState(GameState newGameState)
@@ -59,11 +60,18 @@ public class GameManager : Singleton<GameManager>
             case (GameState.Menu):
             {
                 GoToMenu?.Invoke();
+                round = 0;
+                score = 0;
                 break;
             }
             case (GameState.Playing):
             {
-                GameStart?.Invoke();
+                if (GameState == GameState.Menu || GameState == GameState.GameEnd)
+                {
+                    round = 0;
+                    GameStart?.Invoke();
+                    StartNextWave();
+                }
                 break;
             }
             case (GameState.GameEnd):
@@ -75,6 +83,15 @@ public class GameManager : Singleton<GameManager>
 
         _gamestate = newGameState;
     }
+    
+    public void StartNextWave()
+    {
+        round++;
+        score = 0;
+        string eventString = "event:/SFX/VO/Wave " + round;
+        FMODUnity.RuntimeManager.PlayOneShot(eventString);
+        WaveStart?.Invoke(waveData.waves[round]);
+    }
 
     public void SetPlayer(Player playerIn)
     {
@@ -83,7 +100,6 @@ public class GameManager : Singleton<GameManager>
 
     public void AddScore(int addScore)
     {
-        //in case we want UI VFX or something
         score += addScore;
     }
 }

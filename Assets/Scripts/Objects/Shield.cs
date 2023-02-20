@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-
+    public Enemy owner;
     private Vector3 restPos;
     private Quaternion restRot;
 
     private float speed = 8f;
     private float rotationSpeed = 1f;
 
-    private int maxHitCount = 3;
+    private int maxHitCount = 5;
     private int hitCount;
 
     Rigidbody rb;
@@ -43,7 +43,7 @@ public class Shield : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("colliding");
+        //Debug.Log("colliding");
         if (collision.collider.gameObject.layer == 6)
         //Hit a ball
         {
@@ -51,6 +51,9 @@ public class Shield : MonoBehaviour
             if (hitCount == maxHitCount) {
                 Destroy(gameObject);
             }
+        } else if (collision.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(owner.Attack());
         }
     }
 }

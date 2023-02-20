@@ -7,21 +7,25 @@ TagManager:
   - Base
   - Armored
   - Shielded
+  - CinemachineTarget
+  - Coliseum
+  - Pillar
+  - Floor
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Light
   - Water
   - UI
   - Basketballs
   - Enemies
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Shield
+  - Background
+  - Ground
+  - IgnoreDirectional
+  - PlayerOnly
   - 
   - 
   - 

@@ -91,7 +91,7 @@ QualitySettings:
     shadowNearPlaneOffset: 3
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
-    shadowmaskMode: 1
+    shadowmaskMode: 0
     skinWeights: 255
     textureQuality: 0
     anisotropicTextures: 2
@@ -118,19 +118,5 @@ QualitySettings:
       type: 2}
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Android: 1
-    CloudRendering: 2
-    Lumin: 2
-    GameCoreScarlett: 2
-    GameCoreXboxOne: 2
-    Nintendo Switch: 2
-    PS4: 2
-    PS5: 2
     Server: 0
-    Stadia: 2
-    Standalone: 2
-    WebGL: 1
-    Windows Store Apps: 2
-    XboxOne: 2
-    iPhone: 1
-    tvOS: 1
+    Standalone: 0

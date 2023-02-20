@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7593724896986370548}
   m_Layer: 11
   m_Name: pCube6
-  m_TagString: Untagged
+  m_TagString: Pillar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 7475074245588700163}
   m_Layer: 11
   m_Name: pCube4
-  m_TagString: Untagged
+  m_TagString: Pillar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 8960586842002885666}
   m_Layer: 11
   m_Name: pCube10
-  m_TagString: Untagged
+  m_TagString: Pillar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 8040926298354513350}
   m_Layer: 11
   m_Name: pCube2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 1577730140463607365}
   m_Layer: 11
   m_Name: pCube7
-  m_TagString: Untagged
+  m_TagString: Pillar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -531,7 +531,7 @@ GameObject:
   - component: {fileID: 7385700384375512148}
   m_Layer: 11
   m_Name: pCube8
-  m_TagString: Untagged
+  m_TagString: Pillar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -705,7 +705,7 @@ GameObject:
   - component: {fileID: 3267870409896610932}
   m_Layer: 11
   m_Name: pCube1
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -834,7 +834,7 @@ GameObject:
   - component: {fileID: 7510776558160943288}
   m_Layer: 11
   m_Name: pCube9
-  m_TagString: Untagged
+  m_TagString: Pillar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -931,7 +931,7 @@ GameObject:
   - component: {fileID: 7070977823497519735}
   m_Layer: 11
   m_Name: pCube5
-  m_TagString: Untagged
+  m_TagString: Pillar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -1028,7 +1028,7 @@ GameObject:
   - component: {fileID: 5947205967599716703}
   m_Layer: 11
   m_Name: pCube3
-  m_TagString: Untagged
+  m_TagString: Pillar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

@@ -33,10 +33,17 @@ public class Player : MonoBehaviour
     public float dunkingInvincibilityTime = 0.4f;
     public float dunkingExplosionPower = 500f;
     public float dunkingExplosionRadius = 2f;
+
+    [Header("Walljump")]
+    public float verticalForce = 15f;
+    public float horizontalForce = 20f;
     
     [Header("References")]
     public GameObject leftBallPrefab;
     public GameObject rightBallPrefab;
+    
+    Vector3 wallNormal;
+    bool sticking;
     
     //vignette stuff
     private Vignette damageVignette;
@@ -56,13 +63,6 @@ public class Player : MonoBehaviour
 
     public GameObject handBall;
     public Transform ballPos;
-    /*private Vector3 handBallPos = new Vector3 (0.0285f, -0.0805f, 0.0235f);
-    private Vector3 handBallShotPos = new Vector3 (0.1285f, -0.1805f, 0.1235f);
-    private Vector3 handDir = new Vector3 (1f, -1f, -1f);
-    private float handMoveSpeed = .001f;
-    private Vector3 handLastPos;*/
-
-    //float leftTime;
 
     RaycastHit dirHit;
     public float shotPowerMult;
@@ -78,6 +78,8 @@ public class Player : MonoBehaviour
     float rightLobAngleDeg;
     float rightLobAngleTan;
     Vector3 finalDir;
+
+    public GameObject stickObj;
 
     private void Awake()
     {
@@ -103,6 +105,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogWarning("No Vignette found!");
         }
+        sticking = false;
     }
 
     private void OnEnable()
@@ -148,6 +151,13 @@ public class Player : MonoBehaviour
     {
         if (GameManager.Instance.GameState == GameState.Playing)
         {
+            if (Input.GetKeyDown("space") && stickObj.GetComponent<Stick>().sticking)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+                Vector3 wallForce = Vector3.up * verticalForce + wallNormal * horizontalForce;
+                rb.AddForce(wallForce, ForceMode.Impulse);
+            }
+
             if (Input.GetMouseButtonDown(0) && canShoot && !shooting)
             {
                 Enemy theDunkedOne = CheckIfCanDunk();
@@ -190,6 +200,17 @@ public class Player : MonoBehaviour
                 shooting = false;
                 StartCoroutine(CoolDown());
             }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (stickObj.GetComponent<Stick>().sticking) {
+            rb.velocity = new Vector3(rb.velocity.x * .5f, rb.velocity.y, rb.velocity.z * .5f);
+            if (rb.velocity.y > 0) {
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * .1f , rb.velocity.z);
+            }
+            rb.AddForce(Physics.gravity * rb.mass * -.9f, ForceMode.Force);
         }
     }
 
@@ -482,6 +503,19 @@ public class Player : MonoBehaviour
         invincible = true;
         yield return new WaitForSeconds(time);
         invincible = false;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Pillar" && transform.position.y > -3.8f) {
+            wallNormal = collision.GetContact(0).normal;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Pillar") {
+        }
     }
     
 }

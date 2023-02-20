@@ -92,6 +92,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!GameManager.Instance.Volume.profile.TryGet<Vignette>(out damageVignette))
+        {
+            Debug.LogWarning("No Vignette found!");
+        }
         chargedVelocity = minChargedVelocity;
         line.positionCount = lineVertices;
         health = maxHealth;
@@ -102,10 +106,6 @@ public class Player : MonoBehaviour
         canShoot = true;
         rightLobAngleDeg = rightLobAngle * Mathf.PI / 180;
         rightLobAngleTan = MathF.Tan(rightLobAngleDeg);
-        if (!GameManager.Instance.Volume.profile.TryGet<Vignette>(out damageVignette))
-        {
-            Debug.LogWarning("No Vignette found!");
-        }
         sticking = false;
         justJumped = false;
     }
@@ -131,7 +131,7 @@ public class Player : MonoBehaviour
         health = maxHealth;
         transform.position = new Vector3(0, 1, 0);
         transform.LookAt(new Vector3(0, 1, 1));
-        damageVignette.intensity.value = 0f;
+        if(damageVignette) damageVignette.intensity.value = 0f;
     }
     
     private void OnGameStart()

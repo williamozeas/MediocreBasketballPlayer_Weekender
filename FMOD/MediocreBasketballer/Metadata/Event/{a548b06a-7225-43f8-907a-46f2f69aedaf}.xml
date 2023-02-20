@@ -5,7 +5,7 @@
 			<value>Evil Laugh</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{d69f32de-a671-435d-b4d1-1e63ac5feb0e}</destination>
@@ -56,7 +56,11 @@
 			<destination>{e194c946-58d1-45cc-9a9b-8e213a943f95}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{0328de01-0af0-4906-b596-e604dc54d686}" />
+	<object class="EventAutomatableProperties" id="{0328de01-0af0-4906-b596-e604dc54d686}">
+		<property name="maximumDistance">
+			<value>150</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{ff78d3b8-8300-468d-92c3-d3fcc1b86ba6}" />
 	<object class="GroupTrack" id="{fa8e9d38-fcc2-4dbf-9c88-6d773b31db64}">
 		<relationship name="modules">
@@ -113,6 +117,7 @@
 	<object class="MixerBusEffectChain" id="{e021f9f6-20c1-42fc-8448-3ba708617aef}">
 		<relationship name="effects">
 			<destination>{a8986192-a5b0-416d-a25e-ebae6c5e4df4}</destination>
+			<destination>{f0fb6a67-3548-4e80-8398-ab02262521c0}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{55874dc5-8433-429d-a16c-3ed52c3e9edd}" />
@@ -124,5 +129,19 @@
 	</object>
 	<object class="MixerBusPanner" id="{f3310cb4-80ef-48d0-8c50-17323019fdc3}" />
 	<object class="MixerBusFader" id="{a8986192-a5b0-416d-a25e-ebae6c5e4df4}" />
+	<object class="SpatialiserEffect" id="{f0fb6a67-3548-4e80-8398-ab02262521c0}">
+		<property name="maximumDistance">
+			<value>150</value>
+		</property>
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>2.79999995</value>
+		</property>
+		<property name="minimumExtent">
+			<value>198</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{7f5afe0e-98b3-4696-809e-1e1122e33451}" />
 </objects>

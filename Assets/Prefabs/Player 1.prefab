@@ -217,7 +217,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5059327039085678335}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 1.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -239,15 +239,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveable: 1
   moveSpeed: 13
-  groundDrag: 7
-  jumpForce: 16
+  groundDrag: 3
+  jumpForce: 22
   jumpCooldown: 0.25
   airMultiplier: 0.3
   playerHeight: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 2048
-  maxSlopeAngle: 90
+  maxSlopeAngle: 60
   orientation: {fileID: 5059327038035718556}
 --- !u!114 &5059327039085678275
 MonoBehaviour:

@@ -87,6 +87,7 @@ public class GameManager : Singleton<GameManager>
     public void StartNextWave()
     {
         round++;
+        score = 0;
         WaveStart?.Invoke(waveData.waves[round]);
     }
 

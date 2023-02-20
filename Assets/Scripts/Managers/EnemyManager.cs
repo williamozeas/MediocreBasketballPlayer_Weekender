@@ -54,7 +54,7 @@ public class EnemyManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         
         //temp: end game
-        GameManager.Instance.GameState = GameState.GameEnd;
+        // GameManager.Instance.GameState = GameState.GameEnd;
 
         //TODO:
         //add UI or FX?
@@ -94,12 +94,20 @@ public class EnemyManager : MonoBehaviour
                 yield return new WaitForSeconds(wave.timeBetweenSets);
             }
         }
-        //wait for all enemies to be dead
-        while (aliveEnemies.Count > 0)
+
+        if (GameManager.Instance.Round < 3)
         {
-            yield return null;
+            //wait for all enemies to be dead
+            while (aliveEnemies.Count > 0)
+            {
+                yield return null;
+            }
+            StartCoroutine(EndRound());
         }
-        StartCoroutine(EndRound());
+        else
+        {
+            SpawnWave(wave);
+        }
     }
 
     void SpawnEnemy(EnemyType enemyType, int spawnPoint)

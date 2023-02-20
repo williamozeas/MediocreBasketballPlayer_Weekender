@@ -28,10 +28,17 @@ public class Boss : MonoBehaviour
     private void OnWaveStart(Wave wave)
     {
         health = maxHealth;
-        // if (GameManager.Instance.Round == 3)
+        animator.enabled = true;
+        outlineAnimator.enabled = true;
+        if (GameManager.Instance.Round == 3)
         {
             animator.SetBool("LastRound", true);
             outlineAnimator.SetBool("LastRound", true);
+        }
+        else
+        {
+            animator.SetBool("LastRound", false);
+            outlineAnimator.SetBool("LastRound", false);
         }
     }
 

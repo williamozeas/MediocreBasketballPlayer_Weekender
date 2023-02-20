@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.5521878, z: 0.43361288}
-  m_Center: {x: 0, y: -0.22390586, z: -0.008640617}
+  m_Size: {x: 0.6467707, y: 0.5521878, z: 0.43361288}
+  m_Center: {x: -0.0004400492, y: -0.22390586, z: -0.008640617}
 --- !u!1 &1270190047363345531
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +195,8 @@ MonoBehaviour:
   headCollider: {fileID: 4437542827001597801}
   mouthCollider: {fileID: 7973916565446374694}
   outlineAnimator: {fileID: 2462102653787660302}
-  totalHits: 10
+  maxHealth: 10
+  health: 6
 --- !u!1 &1397449391623156572
 GameObject:
   m_ObjectHideFlags: 0

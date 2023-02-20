@@ -35,8 +35,8 @@ public class Player : MonoBehaviour
     public float dunkingExplosionRadius = 2f;
 
     [Header("Walljump")]
-    public float verticalForce = 15f;
-    public float horizontalForce = 20f;
+    public float verticalForce = 25f;
+    public float horizontalForce = 15f;
     
     [Header("References")]
     public GameObject leftBallPrefab;
@@ -80,6 +80,7 @@ public class Player : MonoBehaviour
     Vector3 finalDir;
 
     public GameObject stickObj;
+    bool justJumped;
 
     private void Awake()
     {
@@ -106,6 +107,7 @@ public class Player : MonoBehaviour
             Debug.LogWarning("No Vignette found!");
         }
         sticking = false;
+        justJumped = false;
     }
 
     private void OnEnable()
@@ -156,6 +158,9 @@ public class Player : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
                 Vector3 wallForce = Vector3.up * verticalForce + wallNormal * horizontalForce;
                 rb.AddForce(wallForce, ForceMode.Impulse);
+
+                justJumped = true;
+                StartCoroutine(Jumped());
             }
 
             if (Input.GetMouseButtonDown(0) && canShoot && !shooting)
@@ -206,9 +211,12 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         if (stickObj.GetComponent<Stick>().sticking) {
-            rb.velocity = new Vector3(rb.velocity.x * .5f, rb.velocity.y, rb.velocity.z * .5f);
-            if (rb.velocity.y > 0) {
-                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * .1f , rb.velocity.z);
+
+            if (!justJumped){
+                rb.velocity = new Vector3(rb.velocity.x * .5f, rb.velocity.y, rb.velocity.z * .5f);
+                if (rb.velocity.y > 0) {
+                    rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * .1f , rb.velocity.z);
+                }
             }
             rb.AddForce(Physics.gravity * rb.mass * -.9f, ForceMode.Force);
         }
@@ -518,6 +526,11 @@ public class Player : MonoBehaviour
         }
     }
     
+    IEnumerator Jumped()
+    {
+        yield return new WaitForSeconds(.5f);
+        justJumped = false;
+    }
 }
 
 

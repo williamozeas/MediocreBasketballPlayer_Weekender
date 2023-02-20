@@ -9,6 +9,8 @@ TagManager:
   - Shielded
   - CinemachineTarget
   - Coliseum
+  - Pillar
+  - Floor
   layers:
   - Default
   - TransparentFX

@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sticking: 0
+  normal: {x: 0, y: 0, z: 0}
+  doubleJumpText: {fileID: 0}
 --- !u!1 &5059327038035718555
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,8 +281,8 @@ MonoBehaviour:
   dunkingInvincibilityTime: 0.8
   dunkingExplosionPower: 50
   dunkingExplosionRadius: 7
-  verticalForce: 15
-  horizontalForce: 20
+  verticalForce: 25
+  horizontalForce: 15
   leftBallPrefab: {fileID: 0}
   rightBallPrefab: {fileID: 0}
   line: {fileID: 5059327039085678276}
@@ -289,7 +291,6 @@ MonoBehaviour:
   shotPowerMult: 100
   camTrans: {fileID: 0}
   rightLobAngle: 75
-  doubleJumpText: {fileID: 0}
   stickObj: {fileID: 3890439063629395335}
 --- !u!120 &5059327039085678276
 LineRenderer:

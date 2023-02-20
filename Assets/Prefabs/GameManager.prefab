@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DontDestroy: 0
-  waveData: {fileID: 11400000, guid: b611d46351cfa48369bbc8ad3c406b25, type: 2}
+  waveData: {fileID: 11400000, guid: 6a7fe0b0be2244e0499c45f8c8f8822f, type: 2}
   enemyManager: {fileID: 0}
   Boss: {fileID: 0}
 --- !u!114 &6401177351214325995

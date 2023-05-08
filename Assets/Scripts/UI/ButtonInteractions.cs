@@ -12,7 +12,7 @@ public class ButtonInteractions : MonoBehaviour
     public GameObject HowToPlayPage;
     public GameObject PlayPage;
     public GameObject EndingPage;
-    public GameObject Intro, I1, I2, I3, I4, I5, I6, I7, I8, I9;
+    public GameObject Intro, I1, I2, I3, I4, I5, I6, I7, I8, I9, IBG;
 
     public float time1, time2, time3, time4, time5, time6, time7, time8, time9;
 
@@ -121,6 +121,7 @@ public class ButtonInteractions : MonoBehaviour
     {
         if (!introSeen){
             Intro.SetActive(true);
+            IBG.SetActive(true);
             I1.SetActive(true);
             yield return new WaitForSeconds(time1);
             I2.SetActive(true);
@@ -148,6 +149,7 @@ public class ButtonInteractions : MonoBehaviour
             Destroy(I8);
             yield return new WaitForSeconds(time9);
             Destroy(I9);
+            Destroy(IBG);
             Destroy(Intro);
             introSeen = true;
         }
